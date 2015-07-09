@@ -8,6 +8,7 @@ glucose data obtained from the
 > of glucose (sugar) present in the blood of a human or animal. The
 > body naturally tightly regulates blood glucose levels as a part of
 > metabolic homeostasis.
+>
 > [Wikipedia/Blood_sugar](https://en.wikipedia.org/wiki/Blood_sugar)
 
 The source of the raw data is a [Dexcom](http://www.dexcom.com/)
