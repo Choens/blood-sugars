@@ -1,221 +1,258 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Blood-sugars by Choens</title>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <title>Blood Sugars</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Blood-sugars</h1>
-        <p>Exploration of Karen&#39;s Nightscout CGM Data. #wearenotwaiting</p>
+        <link rel="stylesheet" href="stylesheets/styles.css">
+        <link rel="stylesheet" href="stylesheets/github-light.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="wrapper">
+            <header>
+                <h1>Blood Sugars</h1>
+                <p>An Exploration Of Nightscout CGM Data</p>
 
-        <p class="view"><a href="https://github.com/Choens/blood-sugars">View the Project on GitHub <small>Choens/blood-sugars</small></a></p>
+                <p class="view"><a href="https://github.com/Choens/blood-sugars">View the Project on GitHub <small>Choens/blood-sugars</small></a></p>
 
 
-        <ul>
-          <li><a href="https://github.com/Choens/blood-sugars/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/Choens/blood-sugars/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/Choens/blood-sugars">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a id="blood-sugar" class="anchor" href="#blood-sugar" aria-hidden="true"><span class="octicon octicon-link"></span></a>Blood Sugar</h1>
+                <ul>
+                    <li><a href="https://github.com/Choens/blood-sugars/zipball/master">Download <strong>ZIP File</strong></a></li>
+                    <li><a href="https://github.com/Choens/blood-sugars/tarball/master">Download <strong>TAR Ball</strong></a></li>
+                    <li><a href="https://github.com/Choens/blood-sugars">View On <strong>GitHub</strong></a></li>
+                </ul>
+            </header>
+            <section>
+                <h3>
+                    <a id="blood-sugar" class="anchor" href="#blood-sugar" aria-hidden="true"><span class="octicon octicon-link"></span>
+                    </a>
+                    About This Project:
+                </h3>
 
-<blockquote>
-<p>The blood sugar concentration or blood glucose level is the amount
-of glucose (sugar) present in the blood of a human or animal. The
-body naturally tightly regulates blood glucose levels as a part of
-metabolic homeostasis.^[<a href="https://en.wikipedia.org/wiki/Blood_sugar">https://en.wikipedia.org/wiki/Blood_sugar</a>]</p>
-</blockquote>
+                <p>
+                    This is a place for me to learn how to work with diabetes
+                    blood glucose data obtained from the <a href="http://www.nightscout.info/">Nightscout Project</a>.
+                </p>
 
-<p>This repo is a place for me to explore how to work with diabetes blood
-glucose data. This is a medical example of the
-<a href="http://quantifiedself.com/">quantified self</a> movement. The data
-source is a <a href="http://www.dexcom.com/">Dexcom</a>
-<a href="http://www.dexcom.com/dexcom-g4-platinum-share">G4 Platinum System with Share</a>
-Continuous Glucose Monitor (CGM) worn by my wife, Karen, who has been
-a Type 1 Diabetic (T1D) since childhood. We are using an Android app,
-<a href="https://stephenblackwasalreadytaken.github.io/xDrip/">XDrip</a> to
-collect the CGM data from the CGM and upload it to a Nighscout
-database. We are running a <a href="http://www.nightscout.info/">Nightscout</a>
-database and website which allows her to track her CGM data on her
-phone and
-<a href="http://www.nightscout.info/wiki/labs/pebble_watchface_custom_alerts">Pebble Watch</a>. All
-of these applications are open source and available to anyone who
-wants to learn more about diabetes self-management (diabetic
-required).</p>
+                <blockquote>
+                    <p>The blood sugar concentration or blood glucose level is the amount
+                        of glucose (sugar) present in the blood of a human or animal. The
+                        body naturally tightly regulates blood glucose levels as a part of
+                        metabolic homeostasis.^[<a href="https://en.wikipedia.org/wiki/Blood_sugar">https://en.wikipedia.org/wiki/Blood_sugar</a>]</p>
+                </blockquote>
 
-<p>As a T1D, Karen's body has lost the ability to produce insulin which
-means her body cannot properly process glucose (sugar) in her
-system. This means her body cannot maintain an appropriate level of
-homeostasis, something the rest of us do naturally and without
-conscious effort. Below is an ideal glucose-insulin curve pattern I
-found on
-<a href="https://en.wikipedia.org/wiki/Blood_sugar#/media/File:Suckale08_fig3_glucose_insulin_day.png">Wikipedia</a>.</p>
+                <p>
+                    The source of the raw data is a
+                    <a href="http://www.dexcom.com/">Dexcom</a>
+                    <a href="http://www.dexcom.com/dexcom-g4-platinum-share">G4 Platinum System with
+                    Share</a> Continuous Glucose Monitor (CGM) worn by
+                    my wife, Karen, who has been a Type 1 Diabetic
+                    (T1D) since she was seven. We are using an Android
+                    app,
+                    <a href="https://stephenblackwasalreadytaken.github.io/xDrip/">XDrip</a>
+                    to collect the data from the CGM and upload it to
+                    a Nighscout database. Her cloud-based CGM data
+                    drives a website which allows her to track her CGM
+                    data on her phone and
+                    <a href="http://www.nightscout.info/wiki/labs/pebble_watchface_custom_alerts">Pebble
+                    Watch</a>.
+                </p>
 
-<p><img src="https://en.wikipedia.org/wiki/File:Suckale08_fig3_glucose_insulin_day.png#/media/File:Suckale08_fig3_glucose_insulin_day.png" alt="Normal Blood Glucose Curves" title="Jakob Suckale, Michele Solimena - Solimena Lab and Review Suckale
- Solimena 2008 Frontiers in Bioscience PMID 18508724, preprint PDF
- from Nature Precedings, original data: Daly et al. 1998 PMID
- 9625092"></p>
+                <p>
+                    You <i>can</i> do all of this with an Apple Phone and
+                    Apple watch ($$$) or you can DIY and build your own rig as we have. As
+                    of June 2015, the Dexcom website does not list Android as a supported
+                    platform for cloud-based CGM and there are no publicly announced plans
+                    to support the Android platform, let along the Pebble Watch. The
+                    applications we are using are all open source and available to anyone
+                    who wants to learn more about diabetes self-management (diabetic
+                    required). Unlike the Apple-based system, the rig we are using is not
+                    FDA certified.
+                </p>
 
-<p>Her body cannot do this without without an external supply of insulin
-and manual correction. In the past, diabetics were required to
-regularly prick a finger to measure their blood glucose levels and
-make corrections. Our bodies maintain homeostasis without conscious
-effort of assistance. For a diabetic, this is necessarily a conscious
-process. Even with more continuos blood glucose data, corrections are
-intermittent, rather than continuous.</p>
+                <h3>Motivation:</h3>
 
-<p>Continuous Glucose Monitors such as the Dexcom G4 are revolutionary
-because they monitor glucose levels at a regularly spaced interval,
-usually 5 minutes, throughout the day. The diabetic must still make
-manual, conscious corrections to maintain homeostasis, but at least
-the monitoring is more automatic and continuous. Unfortunately, the
-accuracy of today's CGMs is less than a traditional blood glucose
-meter for two reasons. The traditional blood glucose meter (finger
-prick) measures the level of glucose in the blood directly. CGMs do
-not. They measure the level of sugar in the diabetic's interstitial
-fluid. Interstitial glucose levels are a lagging indicator of blood
-glucose level. Thus, by the time the CGM detects a change in the
-interstitial glucose levels, the diabetic may already be quite high or
-quite low. This is especially true for brittle diabetics who fluctuate
-rapidly. And because CGMs do not directly measure actual blood glucose
-levels, they must be calibrated several times a day.</p>
+                <p>
+                    My wife, Karen, is the motivation behind this project. As a T1D, her
+                    body does not produce insulin. This means her body cannot properly
+                    process or control glucose (sugar) in her system. The following image
+                    is an "ideal" glucose-insulin curve pattern I found on
+                    <a href="https://en.wikipedia.org/wiki/Blood_sugar#/media/File:Suckale08_fig3_glucose_insulin_day.png">Wikipedia</a>.
+                </p>
+                
 
-<p>With all that said, these things are awesome. The ability to get
-near-real-time feedback is a game changer for anyone who has to live
-with this every single day. Obviously, more accurate and sensitive
-sensors are desired, but the current generation sensors are quite
-good. The accuracy of a CGM is measured by something called a Mean
-Absolute Relative Difference (MARD) between what it reads from the
-interstitial fluid and what is measured by a lab blood glucose
-test. Dexcom claims the G4 Platinum with share has a 9% MARD, which
-they claim is the first single digit MARD on the
-market^[<a href="http://www.dexcom.com/dexcom-g4-platinum-performance">http://www.dexcom.com/dexcom-g4-platinum-performance</a>]. The
-previous generation of this device has a 13% MARD. I don't have the
-ability to test this claim myself, but I can say that Karen has been
-very happy with this CGM and believes it is the best she has used to
-date.</p>
+                <p>
+                    <img src="images/suckale08_fig3_glucose_insulin_day.png"
+                        alt="Normal Blood Glucose Curves"
+                        title="Jakob Suckale, Michele Solimena - Solimena Lab and Review Suckale
+                               <br/>Solimena 2008 Frontiers in Bioscience PMID 18508724, preprint PDF
+                               <br/>from Nature Precedings, original data: Daly et al. 1998 PMID 9625092">
+                </p>
 
-<p>When this device was announced, diabetics were really excited about
-the ability to send the sensor data to their phone and smart watch for
-continuous monitoring and feedback. As of June 2015, Dexcom only
-supports this feature in conjunction with the Apple iOS ecosystem of
-devices. We don't have any of those devices but we do have a strong
-DIY streak. We thank Dexcom for making terrific hardware and we thank
-the makers of the
-<a href="https://stephenblackwasalreadytaken.github.io/xDrip/">XDrip</a> and
-<a href="http://www.nightscout.info/">Nightscout</a> projects for making great
-software. This stuff is making a real difference.</p>
+                <p>
+                    She controls her blood glucose levels by using an external supply of
+                    insulin which is injected into her body via a "pump" she wears at all
+                    times. Maintaining homeostasis requires external tools and conscious
+                    maintenance. The CGMs compliment other methods of measuing blood
+                    glucose levels, such as the classic finger-prick method. The finger
+                    prick method is actuall MORE accurate than the CGM, but is more
+                    involved and is done infrequently thoughout the day.
+                </p>
 
-<p>If you are a diabetic and you want to take charge of how you manage
-your health, this is the best way I know of to do it. You are the one
-in charge, as it should be.</p>
+                <p>
+                    Continuous Glucose Monitors such as the Dexcom G4 are revolutionary
+                    because they measure interstitial glucose levels roughly every 5
+                    minutes. And they do so without the conscious aid or effort of the
+                    diabetic. Using alarms to notify the T1D of lows and highs can improve
+                    blood glucose control AND simplify the life of the T1D. Correcting
+                    glucose imbalances is still a conscious process, but CGMs do simplify
+                    and automate part of the monitoring process.
+                </p>
 
-<h1>
-<a id="goals" class="anchor" href="#goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Goals</h1>
+                <p>
+                    Unfortunately, the accuracy of today's CGMs is below that of a
+                    traditional blood glucose meter. The traditional blood glucose meter
+                    (finger prick) measures the level of glucose in the blood
+                    directly. CGMs do not. They measure the level of sugar in the
+                    diabetic's interstitial fluid. Interstitial glucose levels are a
+                    lagging indicator of blood glucose level. Thus, by the time the CGM
+                    detects a change in the interstitial glucose levels, the diabetic may
+                    already be quite high or quite low. This is especially true for
+                    brittle T1Ds like Karen who can fluctuate rapidly.
+                </p>
 
-<p>Karen's CGM takes a reading 12 times an hour, 24 hours a day. Ideally,
-her system should produce nearly 300 readings a day and a little over
-2,000 readings a week. That is a lot of data.</p>
+                <p>
+                    With all that said, these things are _awesome_. The ability to get
+                    near-real-time feedback is a game changer for diabetes self
+                    management. Obviously, more accurate and sensitive sensors are
+                    desired, but the current generation sensors are quite good. The
+                    accuracy of a CGM is measured by something called a Mean Absolute
+                    Relative Difference (MARD) between what it reads from the interstitial
+                    fluid and what is measured by a lab blood glucose test. Dexcom claims
+                    the 2015 "G4 Platinum with share" has a 9% MARD, which
+                    <a href="http://www.dexcom.com/dexcom-g4-platinum-performance">they claim</a> is
+                    the first single digit MARD on the market. The previous generation
+                    of device has a 13% MARD.
+                </p>
 
-<p>Conveniently, I am a professional data analyst working for the New
-York State Department of Health. I am not a doctor. I evaluate health
-care programs. My day job is to work with "big data" generated by the
-Medicaid program in New York State. My goal is to use my data analysis
-skills to develop new ways of looking at and evaluating Karen's
-diabetes.</p>
+                <p>
+                    We (and many others fighting Diabetes every day) thank Dexcom for
+                    making terrific hardware and we thank the makers of the
+                    <a href="https://stephenblackwasalreadytaken.github.io/xDrip/">XDrip</a> and
+                    <a href="http://www.nightscout.info/">Nightscout</a>
+                    projects for making great software. If you are a
+                    diabetic and you want to take charge of how you
+                    manage your health, this is the best way I know of
+                    to do it. You are the one in charge, as it should
+                    be.
+                </p>
 
-<p>For exploration and rapid prototyping, I will use R. Useful ideas will
-be discussed with the Nightscout developers. To measure my own
-progress, this is a list of more discreet goals.</p>
+                <h5>
+                    <a href="https://twitter.com/hashtag/wearenotwaiting">#WEARENOTWAITING</a>
+                </h5>
 
-<ul>
-<li>
-<em>DONE:</em> Setup and manage the Nightscout Mongo database and
-website.</li>
-<li>
-<p><em>IN PROGRESS:</em> Learn how to effecively query the Mongo database.</p>
+                <h3>
+                    <a id="goals" class="anchor" href="#goals" aria-hidden="true"><span class="octicon octicon-link"></span>
+                    </a>
+                    Goals:
+                </h3>
 
-<ul>
-<li>I can pull down lots of data, but my ability to restrict my query to
-items of interest is still quite limited.</li>
-</ul>
-</li>
-<li><p><em>DONE:</em> Learn how to import Mongodb data into R. This seems harder
-than necessary.</p></li>
-<li>
-<em>DONE:</em> Export Nightscout data as a CSV file and place it into this
-repo. This will be an ongoing process.</li>
-<li>
-<em>DONE:</em> Use the Nightscout data to make some basic plots of blood
-glucose levels.</li>
-<li>
-<em>TODO:</em> Create a template report for Karen that allows us to assess
-her blood glucose levels over any arbitrary time frame.</li>
-<li>
-<em>TODO:</em> Finish reading <a href="http://sugarsurfing.com/">Sugar Surfing</a>.</li>
-<li>
-<em>TODO:</em> Use ideas from the book to improve our reporting and
-processing of Karen's CGM data.</li>
-<li>
-<em>TODO:</em> Look for patterns in Karen's CGM data that can be used to
-predict extreme highs and lows. This is important. CGMs measure
-interstitial glucose levels, which are lagging indicators of blood
-glucose levels. Because Karen often swings quickly, this can be a
-problem. Can I find patterns in the data that can help us see a
-change coming before it happens?</li>
-<li>
-<em>TODO:</em> If yes, how can I make the process of finding these patterns
-available to others? In other words, how can I make a generalized
-process (report, function, code, etc.) that can be used by anyone,
-to find and predict rapid fluctuations in blood glucose level BEFORE
-they happen.</li>
-<li>
-<em>TODO:</em> Publish a R package to make it easier for others to repeat
-what I come up with.</li>
-</ul>
+                <p>
+                    Karen's CGM takes a reading 12 times an hour, 24 hours a day. Ideally,
+                    her system should produce nearly 300 readings a day and a little over
+                    2,000 readings a week. That is a lot of data.
+                </p>
 
-<p>Obviously, I am assuming there is some way to do this. But I could be
-wrong. If I am, I'll still learn something. At the very least, I will
-produce some reporting tools that may be of use to others.</p>
+                <p>
+                    Conveniently, I am a professional data analyst working for the New
+                    York State Department of Health. I am not a doctor or medical
+                    professional. But I do evaluate health care programs. My day job is to
+                    work with "big data" generated by the Medicaid program in New York
+                    State. This data is generated by millions of people across the
+                    State. My goal is to use the same skills I use in my day job to
+                    develop new ways of looking at and evaluating Karen's CGM data.
+                </p>
 
-<h1>
-<a id="files" class="anchor" href="#files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Files:</h1>
+                <p>
+                    This is the moment where I feel obligated to say
+                    the following: The work here has not been reviewed
+                    by the FDA. Use at your own risk. I could be
+                    wrong. If you find a bug, please tell me about
+                    it. I welcome your input, but I'm not responsible
+                    for your health or diabetes management. Hopefully
+                    this clear indication that this is a part-time
+                    project I'm doing to learn will keep the
+                    lawyer-sharks at bay.
+                </p>
 
-<ul>
-<li>config.R: Manages project configuration.</li>
-<li>packages.R: Loads commonly required packages. Is run everytime
-config.R is run.</li>
-<li>get-cgm-data: Script to import CGM data from Nightscout. Creates the
-"data/entries.csv" file.</li>
-<li>first-cgm-graph.Rmd: RMarkdown which imports "entries.csv" and
-creates a simple graph of the CGM data.</li>
-<li>passwords.R: Contains Mongo passwords. It is not part of the
-repo. It is a simple script that assigns values to four
-variables. If you have a Mongo database, you should be able to
-reproduce this file easily. See get-cgm-data.R for more details.</li>
-<li>Makefile: GNU compatible Makefile that lets me "compile" this
-project.</li>
-<li>LICENSE: Feel free to use this, just don't violate the license.</li>
-</ul>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/Choens">Choens</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+                <p>
+                    For exploration and rapid prototyping, I will use R. Any useful ideas
+                    will be discussed with the Nightscout developers. To measure my own
+                    progress, a list of more discreet goals.
+                </p>
+
+                <ul>
+                    <li>
+                        <em>DONE:</em> Setup and manage the Nightscout Mongo database and
+                        website.</li>
+                    <li>
+                        <p><em>IN PROGRESS:</em> Learn how to effecively query the Mongo database.</p>
+
+                        <ul>
+                            <li>I can pull down lots of data, but my ability to restrict my query to
+                                items of interest is still quite limited.</li>
+                        </ul>
+                    </li>
+                    <li><p><em>DONE:</em> Learn how to import Mongodb data into R. This seems harder
+                        than necessary.</p></li>
+                    <li>
+                        <em>DONE:</em> Export Nightscout data as a CSV file and place it into this
+                        repo. This will be an ongoing process.</li>
+                    <li>
+                        <em>DONE:</em> Use the Nightscout data to make some basic plots of blood
+                        glucose levels.</li>
+                    <li>
+                        <em>TODO:</em> Create a template report for Karen that allows us to assess
+                        her blood glucose levels over any arbitrary time frame.</li>
+                    <li>
+                        <em>TODO:</em> Finish reading <a href="http://sugarsurfing.com/">Sugar Surfing</a>.</li>
+                    <li>
+                        <em>TODO:</em> Use ideas from the book to improve our reporting and
+                        processing of Karen's CGM data.</li>
+                    <li>
+                        <em>TODO:</em> Look for patterns in Karen's CGM data that can be used to
+                        predict extreme highs and lows. This is important. CGMs measure
+                        interstitial glucose levels, which are lagging indicators of blood
+                        glucose levels. Because Karen often swings quickly, this can be a
+                        problem. Can I find patterns in the data that can help us see a
+                        change coming before it happens?</li>
+                    <li>
+                        <em>TODO:</em> If yes, how can I make the process of finding these patterns
+                        available to others? In other words, how can I make a generalized
+                        process (report, function, code, etc.) that can be used by anyone,
+                        to find and predict rapid fluctuations in blood glucose level BEFORE
+                        they happen.</li>
+                    <li>
+                        <em>TODO:</em> Publish a R package to make it easier for others to repeat
+                        what I come up with.</li>
+                </ul>
+
+                <p>Obviously, I am assuming there is some way to do this. But I could be
+                    wrong. If I am, I'll still learn something. At the very least, I will
+                    produce some reporting tools that may be of use to others.</p>
+
+            </section>
+            <footer>
+                <p>This project is maintained by <a href="https://github.com/Choens">Choens</a></p>
+                <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+            </footer>
+        </div>
+        <script src="javascripts/scale.fix.js"></script>
+        
+    </body>
 </html>
