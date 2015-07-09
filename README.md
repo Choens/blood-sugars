@@ -1,4 +1,4 @@
-### About This Repo:
+### About This Project:
 
 This is a place for me to learn how to work with diabetes blood
 glucose data obtained from the
@@ -88,9 +88,9 @@ software. If you are a diabetic and you want to take charge of how you
 manage your health, this is the best way I know of to do it. You are
 the one in charge, as it should be.
 
-[#WEARENOTWAITING](https://twitter.com/hashtag/wearenotwaiting)
+##### [#WEARENOTWAITING](https://twitter.com/hashtag/wearenotwaiting)
 
-### Goals
+### Goals:
 
 Karen's CGM takes a reading 12 times an hour, 24 hours a day. Ideally,
 her system should produce nearly 300 readings a day and a little over
