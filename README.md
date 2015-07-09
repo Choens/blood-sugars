@@ -7,7 +7,8 @@ glucose data obtained from the
 > The blood sugar concentration or blood glucose level is the amount
 > of glucose (sugar) present in the blood of a human or animal. The
 > body naturally tightly regulates blood glucose levels as a part of
-> metabolic homeostasis.^[https://en.wikipedia.org/wiki/Blood_sugar]
+> metabolic homeostasis.
+> [Wikipedia/Blood_sugar](https://en.wikipedia.org/wiki/Blood_sugar)
 
 The source of the raw data is a [Dexcom](http://www.dexcom.com/)
 [G4 Platinum System with Share](http://www.dexcom.com/dexcom-g4-platinum-share)
