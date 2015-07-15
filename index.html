@@ -254,7 +254,7 @@
             <footer>
                 <!-- Show last 5 posts here -->
                 {% for post in paginator.posts %}
-                <article>
+                <section>
                     
                     <header class="post">
                         <h2><a href="{{site.url}}{{post.url}}">{{ post.title }}</a></h2>
@@ -264,7 +264,7 @@
                     
                     <div class="entry">{{ post.excerpt }}</div>
                     
-                </article>
+                </section>
                 {% endfor %}
 
 
