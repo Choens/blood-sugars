@@ -252,14 +252,21 @@
 
             </section>
             <footer>
-                <ul>
-                    {% for post in site.posts %}
-                    <li>
-                        <a href="{{ post.url }}">{{ post.title }}</a>
-                        {{ post.excerpt }}
-                    </li>
-                    {% endfor %}
-                </ul>
+                <!-- Show last 5 posts here -->
+                {% for post in paginator.posts %}
+                <article>
+                    
+                    <header class="post">
+                        <h2><a href="{{site.url}}{{post.url}}">{{ post.title }}</a></h2>
+                        <span class="date"><i class="icon-clock"></i><time datetime="{{post.date|date:"%F"}}">{{post.date|date:"%b %d, %Y"}}</time></span><br/>
+                        <span class="category"><i class="icon-tag"></i> {{ post.categories | category_links }}</span><br/>
+                        <span class="author"><i class="icon-user"></i> {% if post.author %}{{post.author}}{% else %}{{site.author}}{% endif%}</span>
+                    
+                    <div class="entry">{{ post.excerpt }}</div>
+                    
+                </article>
+                {% endfor %}
+
 
                 <p>This project is maintained by <a href="https://github.com/Choens">Andy Choens</a></p>
                 <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
