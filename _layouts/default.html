@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>{% if page.title %} {{ page.title }} | {% endif %} {{ site.name }}</title>
+    <link rel="stylesheet" href="{{site.url}}/style.css" type="text/css" media="screen" />
+    <meta name="description" content="{{site.description}}"/>
+    <meta name="author" content="{{site.author}}"/>
+    <link rel="author" href="humans.txt"/>
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{site.url}}/feed.xml" />
+
+    <link rel="stylesheet" href="{{site.eurl}}/resources/fontello/css/fontello.css">
+    <link rel="stylesheet" href="{{site.url}}/resources/fontello/css/animation.css">
+    <!--[if IE 7]><link rel="stylesheet" href="{{site.url}}/resources/fontello/css/fontello-ie7.css"><![endif]-->
+  </head>
+
+  <body>
+    <header class="top">
+      <h1><a href="{{site.url}}/">{{ site.name }}</a></h1>
+      <h4>{{ site.description }}</h4>
+      <hr />
+    </header>
+
+    <nav>
+
+      <h2>MENU</h2>
+
+      <ul>
+        <li><i class="icon-home"></i>   <a href="{{site.url}}/">Home</a></li>
+        <li><i class="icon-mail"></i>   <a href="{{site.url}}/contact">Contact</a></li>
+      </ul>
+
+      <br/>
+      <h3>Blog Posts</h3>
+      <ul>
+        <li><i class="icon-th"></i>     <a href="{{site.url}}/archive-chron">By Date</a></li>
+        <li><i class="icon-tag"></i>     <a href="{{site.url}}/archive-category">By Category</a></li>
+        <li><i class="icon-rss"></i>    <a href="{{site.url}}/feed.xml">RSS Feed</a></li>
+      </ul>
+
+      <br/>
+      <h3>Where To Find Me</h3>
+
+      <ul>
+        <li>
+            <i class="icon-wrench"></i>
+            <a href="https://github.com/Choens">GitHub</a>
+        </li>
+        <li>
+            <i class="icon-globe"></i>
+            <a href="http://www.linkedin.com/pub/andrew-choens/1b/932/563/">Linked In</a>
+        </li>
+      </ul>
+
+      <br/>
+      <h3>Tools</h3>
+      <ul>
+        <li>
+            <i class="icon-wrench"></i>
+            <a href="https://choens.github.io/analytic-toolbox/index.html">Analytic Toolbox</a>
+        </li>
+      </ul>
+
+      <br/>
+      <h3>Presentations:</h3>
+      <ul>
+        <li>
+          <i class="icon-users"></i>
+          <a href="https://choens.github.io/why-r/#/">Why R?</a>
+        </li>
+        <li>
+            <i class="icon-users"></i>
+            <a href="https://github.com/Choens/sql-survival-guide/blob/master/04-joins.pdf" >SQL Survival: Joins</a>
+        </li>
+      </ul>
+      <br/>
+    </nav>
+
+    <main>
+
+      {{ content }}
+
+    </main>
+
+    <footer>
+      <hr />
+      <p>&copy; <time>2012</time> {{ site.author }}</p>
+    </footer>
+
+    <script src="{{site.url}}/scripts.js"></script>
+  </body>
+
+</html>
