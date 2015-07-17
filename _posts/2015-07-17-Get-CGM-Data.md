@@ -3,6 +3,7 @@ layout: post
 title: "Get CGM Data"
 author: "Andy Choens"
 category: "Data Management"
+excerpt: Documented R code for querying data from a Nightscout DB.
 
 ---
 
