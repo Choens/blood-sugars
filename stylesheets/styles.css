@@ -159,6 +159,14 @@ header ul a strong {
   color:#222;
 }
 
+header.post {
+    width: 100%;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: .125%;
+    padding-top: .125%;    
+}
+
 section {
   width:500px;
   float:right;
@@ -236,6 +244,48 @@ footer {
   }
 }
 
+article {
+    margin: 2%;
+}
+
+article .entry {
+    margin-left: 2%;
+    padding: 2%;
+    background-color: #eceeee;
+}
+
+article .entry img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #eceeee;
+}
+
+article header span {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 2%;
+}
+
+article header h2 {
+    margin-bottom: 3px;
+}
+
+section address {
+    margin-left: 2%;
+}
+
+#paginator {
+    padding: 2%;
+}
+
+#paginator a {
+    text-decoration: none;
+}
+
+.more {
+    margin-left: 80%;
+}
 @media print, screen and (max-width: 480px) {
   body {
     padding:15px;
