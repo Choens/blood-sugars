@@ -251,14 +251,14 @@ article {
 article .entry {
     margin-left: 2%;
     padding: 2%;
-    background-color: #eceeee;
+    /* background-color: #eceeee; */
 }
 
 article .entry img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    background-color: #eceeee;
+    /* background-color: #eceeee; */
 }
 
 article header span {
