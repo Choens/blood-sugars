@@ -1,8 +1,10 @@
 ---
+layout: post
 title: "Get CGM Data"
 author: "Andy Choens"
 date: "2015-07-02"
-output: html_document
+output: md_document
+category: "Data Management"
 ---
 
 # Disclaimer
@@ -16,6 +18,10 @@ collected prior to June 21 is more variable and inconsistent due to
 the limitations with the preceding rig and our problems figuring out
 how to use it. I do not recommend using that data for analytical
 purposes.
+
+# Project Code
+
+The code discussed here is available on GitHub here: [https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd](https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd)
 
 # Goals
 
