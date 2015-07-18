@@ -1,0 +1,546 @@
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <title> Get CGM Data |  Blood Sugars</title>
+
+        <link rel="stylesheet" href="https://choens.github.io/blood-sugars/stylesheets/styles.css">
+        <link rel="stylesheet" href="https://choens.github.io/blood-sugars/stylesheets/github-light.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="description" content="An Exploration Of Nightscout CGM Data"/>
+        <meta name="author" content="Andy Choens"/>
+        <link rel="author" href="humans.txt"/>
+        <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="https://choens.github.io/blood-sugars/feed.xml" />
+        <link rel="stylesheet" href="/resources/fontello/css/fontello.css">
+        <link rel="stylesheet" href="https://choens.github.io/blood-sugars/resources/fontello/css/animation.css">
+        <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+
+
+    
+    <body>
+        <div class="wrapper">
+
+            <!-- -------------------- HEADER -------------------- -->
+            <header>
+                <h1>Blood Sugars</h1>
+                <h5>Using Nightscout CGM Data</h5>
+
+                
+                <p class="view">
+                    <i class="icon-home"></i> <a href="https://choens.github.io/blood-sugars">Blood Sugars Home</a> <br/>
+                    <i class="icon-link"></i> <a href="https://choens.github.io/blood-sugarsabout.html">About This Project</a> <br/>
+                    <i class="icon-link"></i> <a href="https://github.com/Choens/blood-sugars">View the Project on GitHub</a> <br/>
+                    <i class="icon-mail"></i> <a href="mailto:andy.choens@gmail.com?Subject=Blood Sugars Project">Contact Author</a> <br/>
+                </p>
+
+
+                <ul>
+                    <li><a href="https://github.com/Choens/blood-sugars/zipball/master">Download <strong>ZIP File</strong></a></li>
+                    <li><a href="https://github.com/Choens/blood-sugars/tarball/master">Download <strong>TAR Ball</strong></a></li>
+                    <li><a href="https://github.com/Choens/blood-sugars">View On <strong>GitHub</strong></a></li>
+                </ul>
+            </header>
+
+
+            
+            <!-- -------------------- Content -------------------- -->
+            <section>
+
+                <article>
+  <div class="post">
+    <h2>Get CGM Data</h2>
+    <span><i class="icon-clock"></i><time datetime="2015-07-17">Jul 17, 2015</time></span><br/>
+    <span class="category"><i class="icon-tag"></i> data management</span><br/>
+    <span class="author"><i class="icon-user"></i> Andy Choens</span>
+  </div>
+
+  <div class="entry"><h1>Disclaimer</h1>
+
+<p>This code may change in the future. I intend to publicly store data in
+this repo, but the file names and content of the data is subject to
+periodic change. Open a bug if you would like to have access to a stable
+or private data-set. We have been using out current setup since June 21,
+2015, and we are producing data at a prodigious rate. Data collected
+prior to June 21 is more variable and inconsistent due to the
+limitations with the preceding rig and our problems figuring out how to
+use it. I do not recommend using that data for analytical purposes.</p>
+
+<h1>Project Code</h1>
+
+<p>The code discussed here is available on GitHub here:
+<a href="https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd">&lt;https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd></a></p>
+
+<h1>Goals</h1>
+
+<p><a href="https://nightscout.github.io/">Nighscout</a> stores all of Karen's CGM
+data on a hosted <a href="https://www.mongodb.org">Mongodb</a> server, controlled
+by our family. To use Karen's Nightscout data to better understand her
+diabetes, I have to learn how to use Mongo. Mongodb is the formal name
+of the product, but referring to it simply as Mongo appears to be an
+acceptable shorthand and is used here.</p>
+
+<p>I have been using the <a href="http://robomongo.org/">Robomongo</a> application to
+view Mongo JSON data directly in the db server. Like R, it is FOSS and
+is available for Linux, Mac and Windows.</p>
+
+<p><em>GOALS:</em></p>
+
+<ol>
+<li><em>DONE:</em> Query Karen's Nightscout database.</li>
+<li><em>DONE:</em> Import Nightscout data (JSON) and turn it into a R data
+frame.</li>
+<li><em>DONE:</em> QA this data frame (number of entries, data completeness,
+etc.).</li>
+<li><em>DONE:</em> Export the data frame as a CSV for further analysis.</li>
+<li><em>IN PROGRESS:</em> Develop a function to simplify the query process
+against Nightscout databases.</li>
+</ol>
+
+
+<p>Goals #1 and #2 were hard because I am not an experienced NOSQL /
+Mongo programmer. Goals #3 and #4 were easy, these "goals" are basic R
+programming. Goal #5, a function to simplify querying the Nightscout
+data, will be completed at a later date. I will use what I learned here,
+to inform that process. I'm not ready to publicly discuss my ideas for
+that goal yet. My next post will use the data we collect today to create
+some simple analytic views of the CGM data.</p>
+
+<p>There are two R packages able to query Mongo,
+<a href="http://cran.r-project.org/web/packages/RMongo/index.html">RMongo</a> and
+<a href="http://cran.r-project.org/web/packages/rmongodb/index.html">rmongodb</a>.
+After skimming the documentation to both packages, I first tried to use
+RMongo. The documentation made it look easier to use. Unfortunately, I
+was never able to connect to our Mongodb instance running on
+<a href="https://mongolab.com/">mongolab</a> using RMongo. RMongo lacks the ability
+to connect to Mongo using user-names, passwords or custom ports. The
+syntax is more R-centric and it is probably great if you want to connect
+to a local Mongo server, but it is not useful for connecting to a remote
+server[1]. Fortunately, I had better luck with rmongodb, even though
+using it appears to be more complicated. Unlike RMongo's syntax, which
+appears to hide Mongo's inner working from the user, rmongodb requires
+the user to use a form of programming more commonly seen in web
+development than analytic code. It feels unnecessarily complicated but
+it does work (and well). Much of the complexity I don't like is because
+of structural differences in JSON objects and data structures used in R.</p>
+
+<h1>Goals #1 &amp; #2: Import &amp; Convert To Data Frame</h1>
+
+<p>Nearly all of my database experience is with Relational Database
+Management Systems (RDBMS) such as Postgres or SQL Server. To succeed
+with rmongodb, I had to adopt a different work flow than I am used to.
+It isn't really harder, but it quite different compared to what I would
+do to query data via RODBC or other RDBMS-oriented package.</p>
+
+<h2>Init</h2>
+
+<p>I always start with a chunk called init, to define variables, load
+packages, etc. This script has two dependencies, rmongodb and dplyr.</p>
+
+<p>For obvious security reasons, passwords.R is not part of the public
+repo. Because of this decision, you cannot run this code. I prefer to
+post public code that can be run by anyone, but that simply isn't
+possible in this case. I may be willing to share the password with
+co-workers, but I do have to restrict direct access to the server. The
+data queried from the server today is available in the data/ directory
+of this repository. Analytically oriented posts will use this data,
+rather than data obtained directly from the server, to ensure the
+reproducibility of the analysis.</p>
+
+<pre><code>## passwords.R -----------------------------------------------------------------
+## Defines the variables I don't want to post to GitHub. (Sorry)
+## ns is short for Nightscout.
+## ns_host = URL for the host server (xyz.mongolab.com:123456)
+## ns_db = Name of the Nightscout database (lade_k_nightscout)
+## ns_user = Admin User Name (Not admin)
+## ns_pw = Admin Password (Not Admin)
+source("passwords.R")
+
+## Required Packages -----------------------------------------------------------
+library(rmongodb)  ## For importing the data.
+library(dplyr)     ## For QA / data manipulation.
+library(pander)    ## For nice looking tables, etc.
+</code></pre>
+
+<p>As of July, 2015, rmongodb returns a dramatic warning when running
+<code>library(rmongodb)</code>:</p>
+
+<blockquote><p>WARNING! There are some quite big changes in this version of rmongodb.
+mongo.bson.to.list, mongo.bson.from.list (which are workhorses of many
+other rmongofb high-level functions) are rewritten. Please, TEST IT
+BEFORE PRODUCTION USAGE. Also there are some other important changes,
+please see NEWS file and release notes at
+<a href="https://github.com/mongosoup/rmongodb/releases/">https://github.com/mongosoup/rmongodb/releases/</a></p></blockquote>
+
+<p>I did not experienced any problems using rmongodb, other than a few I
+think I created for myself. Opening a connection to Mongo is similar to
+opening a connection to a RDBMS[2]. Mongo stores data in an object
+called a collection, which is sorta-kinda like a table in a traditional
+RDBMS. However, unlike a table, the structure of a collection is not
+defined prior to use. There are several other important differences,
+which you can learn about by reading the <a href="https://www.mongodb.org/about/introduction/">introduction
+tutorial</a> written by the
+developers.</p>
+
+<p>The following code chunk returns a list of all the collections which
+exist in our Nighscout database. The "entries" collection is the only
+collection we are interested in today. The database name,
+lade_k_nightscout is prepended to each collection name.</p>
+
+<pre><code>## Open a connection to mongo --------------------------------------------------
+con &lt;- mongo.create(host = ns_host,
+                    username = ns_user,
+                    password = ns_pw,
+                    db = ns_db
+                   )
+
+## Make sure we have a connection ----------------------------------------------
+if(mongo.is.connected(con) == FALSE) stop("Mongo connection has been terminated.")
+
+
+ns_collections &lt;- mongo.get.database.collections(con, ns_db)
+pandoc.list(ns_collections)
+</code></pre>
+
+<ul>
+<li>lade_k_nightscout.entries</li>
+<li>lade_k_nightscout.devicestatus</li>
+<li>lade_k_nightscout.treatments</li>
+</ul>
+
+
+<!-- end of list -->
+
+
+<p>The next code chunk will produce some variables needed to temporarily
+hold the Nightscout data. When importing data from a RDBMS, it is normal
+practice to place the imported data into a R data frame. When importing
+data from a non-relational database such as Mongo, we need to import the
+data as a series of vectors. This is further complicated by the fact
+that records have a different number of fields and we have to handle the
+NULL values in R, rather than via the database.</p>
+
+<p>The query imports thousands of records. Rather than build each vector
+incrementally, it is faster and more memory efficient to create vectors
+large enough to hold all of the data present in the server. The
+variable, ns_count, is used to hold the number of records in the
+"entries" collection.</p>
+
+<pre><code>## Make sure we still have a connection ----------------------------------------
+if(mongo.is.connected(con) == FALSE) stop("Mongo connection has been terminated.")
+
+## Collections Variables -------------------------------------------------------
+## Yeah, I just hard-coded these. Sue me.
+ns_entries &lt;- "lade_k_nightscout.entries"
+
+## Mongo Variables -------------------------------------------------------------
+## ns_count: Total number of records in entries.
+## ns_cursor: A cursor variable capable of returning the valie of all fields in
+##            a single row of the entries collection.
+##
+ns_count   &lt;- mongo.count(con, ns_entries)
+ns_cursor &lt;- mongo.find(con, ns_entries)
+
+## R Vectors to hold Nightscout  data ------------------------------------------
+## If you don't define the variable type, you tend to get characters.
+device     &lt;- vector("character",ns_count)
+date       &lt;- vector("numeric",ns_count)
+dateString &lt;- vector("character",ns_count)
+sgv        &lt;- vector("integer",ns_count)
+direction  &lt;- vector("character",ns_count)
+type       &lt;- vector("character",ns_count)
+filtered   &lt;- vector("integer",ns_count)
+unfiltered &lt;- vector("integer",ns_count)
+rssi       &lt;- vector("integer",ns_count)
+noise      &lt;- vector("integer",ns_count)
+mbg        &lt;- vector("numeric",ns_count)
+slope      &lt;- vector("numeric",ns_count)
+intercept  &lt;- vector("numeric",ns_count)
+scale      &lt;- vector("numeric",ns_count)
+</code></pre>
+
+<p>As of 2015-07-17 the "entries" collection contains 11,960 records. That
+is a lot of data, about a single person. The next code chunk imports all
+of the records in the collection and places the data into the vectors
+produced above.</p>
+
+<p>The use of the "ns_cursor" variable should be familiar to anyone with
+web-development experience. A mongo cursor works in much the same way a
+RDBMS cursor works. It returns a single record at a time. This appears
+to be the preferred way of getting results from Mongo. This is very
+different than importing data from a RDBMS, which would normally be
+imported directly as a data frame.</p>
+
+<pre><code>## Get the CGM Data, with a LOOP -----------------------------------------------
+## The examples I found on the Internet always show this loop as a while loop.
+## Depending on my future import needs, I may need to change this to a for loop.
+## A new record is added every five minutes, which means it is not impossible for
+## a new data entry to be produced while this script is running, even though it
+## takes less that a couple of seconds to run.
+
+i = 1
+
+while(mongo.cursor.next(ns_cursor)) {
+
+    # Get the values of the current record
+    cval = mongo.cursor.value(ns_cursor)
+
+    ## Place the values of the record into the appropriate location in the vectors.
+    device[i] &lt;- if( is.null(mongo.bson.value(cval, "device")) ) NA else mongo.bson.value(cval, "device")
+    date[i] &lt;- if( is.null(mongo.bson.value(cval, "date")) ) NA else mongo.bson.value(cval, "date")
+    dateString[i] &lt;- if(is.null(mongo.bson.value(cval, "dateString")) ) NA else mongo.bson.value(cval, "dateString")
+    sgv[i] &lt;- if( is.null( mongo.bson.value(cval, "sgv") ) ) NA else mongo.bson.value(cval, "sgv")
+    direction[i] &lt;- if( is.null( mongo.bson.value(cval, "direction") ) ) NA else mongo.bson.value(cval, "direction")
+    type[i] &lt;- if( is.null(mongo.bson.value(cval, "type") ) ) NA else mongo.bson.value(cval, "type")
+    filtered[i] &lt;- if( is.null( mongo.bson.value(cval, "filtered") ) ) NA else mongo.bson.value(cval, "filtered")
+    unfiltered[i] &lt;- if( is.null( mongo.bson.value(cval, "unfiltered") ) ) NA else mongo.bson.value(cval, "unfiltered")
+    rssi[i] &lt;- if( is.null( mongo.bson.value(cval, "rssi") ) ) NA else mongo.bson.value(cval, "rssi")
+    noise[i] &lt;- if( is.null( mongo.bson.value(cval, "noise") ) ) NA else mongo.bson.value(cval, "noise")
+    mbg[i] &lt;- if( is.null(mongo.bson.value(cval, "mbg"))) NA else mongo.bson.value(cval, "mbg")
+    slope[i] &lt;- if( is.null( mongo.bson.value(cval, "slope") ) ) NA else mongo.bson.value(cval, "slope")
+    intercept[i] &lt;- if( is.null( mongo.bson.value(cval, "intercept") ) ) NA else mongo.bson.value(cval, "intercept")
+    scale[i] &lt;- if( is.null( mongo.bson.value(cval, "scale") ) ) NA else mongo.bson.value(cval, "scale")
+
+    ## Increment the cursor to the next record.
+    i = i + 1
+}
+
+
+## Data Clean Up ---------------------------------------------------------------
+
+## Fixes the date data.
+## I'm not sure why I have to divide by 1000. If I don't, this won't work.
+date &lt;- as.POSIXct(date/1000, origin = "1970-01-01 00:00:01")
+
+
+## Builds the data.frame -------------------------------------------------------
+entries &lt;- as.data.frame(list( device = device,
+                               date = date,
+                               dateString = dateString,
+                               sgv = sgv,
+                               direction = direction,
+                               type = type,
+                               filtered = filtered,
+                               unfiltered = unfiltered,
+                               rssi = rssi,
+                               noise = noise,
+                               mbg = mbg,
+                               slope = slope,
+                               intercept = intercept,
+                               scale = scale
+                              )
+                         )
+</code></pre>
+
+<p>There is one really annoying aspect about this code. Mongo allows each
+record to contain a different number of data elements. Thus, not all
+records have a "mbg" element. Thus, rather than just asking the "cval"
+variable for the value of the data element, it must first check to see
+if it exists. If it doesn't, the client must create the NA (NULL) value.
+Mongo can store NULL values. It can also not have a data element and the
+two are different and must be handled on the client-side. This took me a
+while to figure out.</p>
+
+<p>The next code chunk does some very minimal QA on the "entries" data
+frame. If the data frame has 0 rows, it will force the script to stop.
+Otherwise, it returns a table with some basic meta-data about the
+imported data set.</p>
+
+<pre><code>if(dim(entries)[1] == 0) stop("Entries variable contains no rows.")
+
+entries %&gt;%
+    summarize(
+        "N Rows" = n(),
+        "N Days" = length(unique( format.POSIXct(.$date, format="%F" ))),
+        "First Day" = min( format.POSIXct(.$date, format="%F" )),
+        "Last Day" = max( format.POSIXct(.$date, format="%F" ))
+        ) %&gt;%
+    pander()
+</code></pre>
+
+<table>
+<colgroup>
+<col width="12%" />
+<col width="12%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">N Rows</th>
+<th align="center">N Days</th>
+<th align="center">First Day</th>
+<th align="center">Last Day</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">11960</td>
+<td align="center">62</td>
+<td align="center">43</td>
+<td align="center">2015-07-17</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>The following code chunk returns the number of rows per day, to make
+sure the "rig" is properly working and uploading data. This is
+restricted to a specific time frame, because we don't want to look at
+all of the data in this data frame.</p>
+
+<pre><code>entries %&gt;%
+    filter(date &gt;= "2015-06-20" &amp; date &lt;= "2015-07-07") %&gt;%
+    group_by( "Date" = format.POSIXct(.$date, format="%F") ) %&gt;%
+    summarize("N Entries" = n() ) %&gt;%
+    pander()
+</code></pre>
+
+<table>
+<colgroup>
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Date</th>
+<th align="center">N Entries</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2015-06-21</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">2015-06-22</td>
+<td align="center">279</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-06-23</td>
+<td align="center">261</td>
+</tr>
+<tr class="even">
+<td align="center">2015-06-24</td>
+<td align="center">275</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-06-25</td>
+<td align="center">286</td>
+</tr>
+<tr class="even">
+<td align="center">2015-06-26</td>
+<td align="center">237</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-06-27</td>
+<td align="center">85</td>
+</tr>
+<tr class="even">
+<td align="center">2015-06-28</td>
+<td align="center">130</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-06-29</td>
+<td align="center">282</td>
+</tr>
+<tr class="even">
+<td align="center">2015-06-30</td>
+<td align="center">285</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-07-01</td>
+<td align="center">276</td>
+</tr>
+<tr class="even">
+<td align="center">2015-07-02</td>
+<td align="center">283</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-07-03</td>
+<td align="center">256</td>
+</tr>
+<tr class="even">
+<td align="center">2015-07-04</td>
+<td align="center">283</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-07-05</td>
+<td align="center">269</td>
+</tr>
+<tr class="even">
+<td align="center">2015-07-06</td>
+<td align="center">290</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>June 21 was the first day we used the new CGM Platinum w/ Share CGM. I
+set it up late at night. As a result, it only recorded 15 records on
+that day. Karen believes she changed her sensor out on June 27, which is
+why there are only 85 records there. We aren't sure what happened on
+June 28th. For some reason the rig either was not reading or it wasn't
+communicating with the server. We aren't sure. The other days are fairly
+consistent, but shows that the number of records recorded does vary by
+day.</p>
+
+<p>The final code chunk creates a date-stamped data set. I'll try to add a
+new data set periodically to the public data if anyone wants to use it.
+Old data sets will remain frozen, for reproducibility purposes.</p>
+
+<pre><code>## Saves the data as a CSV file ------------------------------------------------
+## You are welcome to use the data stored publicly in the data folder.
+file_name &lt;- paste("data/entries-", Sys.Date(), ".csv", sep="")
+write.csv(entries, file_name, row.names = FALSE)
+
+## Clean up the session and good-bye.
+rm(list=ls())
+</code></pre>
+
+<p>[1] If anyone leaves a comment proving me wrong, I will amend this
+statement.</p>
+
+<p>[2] I make these comparisons, because it is what I know.</p>
+</div>
+
+  <div><!-- additional info --></div>
+
+</article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'choensgithub'; // required: replace example with your forum shortname
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </section>
+
+
+            
+            <!-- -------------------- FOOTER -------------------- -->
+            <footer>
+                <p>This project is maintained by <a href="https://github.com/Choens">Andy Choens</a></p>
+                <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+            </footer>
+            
+        </div>
+        <script src="javascripts/scale.fix.js"></script>
+        
+    </body>
+</html>
