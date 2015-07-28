@@ -101,7 +101,7 @@ header {
     width:25%;
     float:left;
     position:fixed;
-    border-right:3px solid #e5e5e5;
+    /* border-right:3px solid #e5e5e5; */
 }
 
 header ul {
