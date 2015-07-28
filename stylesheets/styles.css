@@ -127,7 +127,7 @@ header ul {
 header li {
     width:89px;
     float:left;
-    /* border-right:1px solid #d2d2d2;*/
+    border-right:1px solid #d2d2d2;
     height:40px;
 }
 
@@ -194,7 +194,7 @@ footer {
     float:left;
     position:fixed;
     bottom:50px;
-    border-right:3px solid #e5e5e5;
+    /*border-right:3px solid #e5e5e5;*/
 }
 
 @media print, screen and (max-width: 960px) {
