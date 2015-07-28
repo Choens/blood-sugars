@@ -7,39 +7,40 @@ excerpt: Documented R code for querying data from a Nightscout DB.
 
 ---
 
-Disclaimer
-==========
-
-This code may change in the future. I intend to publicly store data in
-this repo, but the file names and content of the data is subject to
-periodic change. Open a bug if you would like to have access to a stable
-or private data-set. We have been using out current setup since June 21,
-2015, and we are producing data at a prodigious rate. Data collected
-prior to June 21 is more variable and inconsistent due to the
-limitations with the preceding rig and our problems figuring out how to
-use it. I do not recommend using that data for analytical purposes.
-
-Project Code
-============
-
-The code discussed here is available on GitHub here:
-[<https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd>](https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd)
-
-Goals
+About
 =====
 
 [Nighscout](https://nightscout.github.io/) stores all of Karen's CGM
-data on a hosted [Mongodb](https://www.mongodb.org) server, controlled
-by our family. To use Karen's Nightscout data to better understand her
-diabetes, I have to learn how to use Mongo. Mongodb is the formal name
-of the product, but referring to it simply as Mongo appears to be an
-acceptable shorthand and is used here.
+data on a [Mongodb](https://www.mongodb.org) server, controlled by our
+family. To use Karen's Nightscout data to better understand her
+diabetes, I have to learn how to use Mongo. Mongodb appears to be the
+formal name of the product. It is referred to here as Mongo which
+appears to be an abbreviation adopted by the community.
 
 I have been using the [Robomongo](http://robomongo.org/) application to
 view Mongo JSON data directly in the db server. Like R, it is FOSS and
 is available for Linux, Mac and Windows.
 
-*GOALS:*
+Code & Data
+===========
+
+The .Rmd file used to create this post is available on
+[GitHub](https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd).
+The public data sets are in the [data
+sub-folder](https://github.com/Choens/blood-sugars/tree/master/data).
+The date on which the data file was built is provided in the CSV file
+name.
+
+File names and content is subject to periodic updates. Open a bug or
+download one of these datasets for future use if you want to have a
+guaranteed stable data-set. We have been using our current rig since
+June 21, 2015. We are producing data at a prodigious rate. Data
+collected prior to June 2015 is less consistent due to the limitations
+with the previous rig and mistakes we made figuring out how to use it. I
+do not recommend using data collected prior to June 2015 for analysis.
+
+Goals
+=====
 
 1.  *DONE:* Query Karen's Nightscout database.
 2.  *DONE:* Import Nightscout data (JSON) and turn it into a R data
@@ -50,34 +51,39 @@ is available for Linux, Mac and Windows.
 5.  *IN PROGRESS:* Develop a function to simplify the query process
     against Nightscout databases.
 
-Goals \#1 and \#2 were hard because I am not an experienced NOSQL /
-Mongo programmer. Goals \#3 and \#4 were easy, these "goals" are basic R
+Goals \#1 and \#2 were hard because I am not an experienced Mongo
+programmer. Goals \#3 and \#4 were easy, these "goals" are basic R
 programming. Goal \#5, a function to simplify querying the Nightscout
-data, will be completed at a later date. I will use what I learned here,
-to inform that process. I'm not ready to publicly discuss my ideas for
-that goal yet. My next post will use the data we collect today to create
-some simple analytic views of the CGM data.
+data, will be completed at a later date. I will build upon what I
+demonstrate here in that process.
 
-There are two R packages able to query Mongo,
-[RMongo](http://cran.r-project.org/web/packages/RMongo/index.html) and
-[rmongodb](http://cran.r-project.org/web/packages/rmongodb/index.html).
-After skimming the documentation to both packages, I first tried to use
-RMongo. The documentation made it look easier to use. Unfortunately, I
-was never able to connect to our Mongodb instance running on
-[mongolab](https://mongolab.com/) using RMongo. RMongo lacks the ability
-to connect to Mongo using user-names, passwords or custom ports. The
-syntax is more R-centric and it is probably great if you want to connect
-to a local Mongo server, but it is not useful for connecting to a remote
-server[1]. Fortunately, I had better luck with rmongodb, even though
-using it appears to be more complicated. Unlike RMongo's syntax, which
-appears to hide Mongo's inner working from the user, rmongodb requires
-the user to use a form of programming more commonly seen in web
-development than analytic code. It feels unnecessarily complicated but
-it does work (and well). Much of the complexity I don't like is because
-of structural differences in JSON objects and data structures used in R.
+R Packages
+==========
 
-Goals \#1 & \#2: Import & Convert To Data Frame
-===============================================
+There are two R packages able to query Mongo:
+
+-   [RMongo](http://cran.r-project.org/web/packages/RMongo/index.html)
+    and
+-   [rmongodb](http://cran.r-project.org/web/packages/rmongodb/index.html).
+
+I skimmed the documentation for both packages. RMongo looked easier to
+use so I tried it first. Unfortunately, I was never able to connect to
+our Mongo server running on [mongolab](https://mongolab.com/) using
+RMongo. RMongo appears to lack the ability to connect to Mongo using
+user names, passwords or custom ports. All three of these re required to
+connect to a mongolab server. Based on the documentation, RMongo has a
+more R-centric API and it is probably great if you want to connect to a
+local Mongo server.
+
+The second package, rmongodb, is complicated but works well. This
+package loops over a cursor, an algorithm commonly used in web
+development but not in R which tends to avoid loops. Although it feels
+unnecessarily complicated, it works well and it is fast. Structural
+differences in JSON objects and data structures used in R add additional
+complexity to the code below.
+
+Goals 1 & 2: Import & Convert To Data Frame
+===========================================
 
 Nearly all of my database experience is with Relational Database
 Management Systems (RDBMS) such as Postgres or SQL Server. To succeed
@@ -85,21 +91,18 @@ with rmongodb, I had to adopt a different work flow than I am used to.
 It isn't really harder, but it quite different compared to what I would
 do to query data via RODBC or other RDBMS-oriented package.
 
-Init
-----
+Init Chunk
+----------
 
 I always start with a chunk called init, to define variables, load
 packages, etc. This script has two dependencies, rmongodb and dplyr.
 
-For obvious security reasons, passwords.R is not part of the public
-repo. Because of this decision, you cannot run this code. I prefer to
-post public code that can be run by anyone, but that simply isn't
-possible in this case. I may be willing to share the password with
-co-workers, but I do have to restrict direct access to the server. The
-data queried from the server today is available in the data/ directory
-of this repository. Analytically oriented posts will use this data,
-rather than data obtained directly from the server, to ensure the
-reproducibility of the analysis.
+The file, passwords.R is not part of the public repo for security
+reasons. Thus, you cannot run this code as easily as some other code for
+R. If you have your own Nightscout mongo server running, you can adopt
+the code in the
+[passwords.example.R](https://github.com/Choens/blood-sugars/blob/master/passwords.example.R)
+file to connect to your own database.
 
     ## passwords.R -----------------------------------------------------------------
     ## Defines the variables I don't want to post to GitHub. (Sorry)
@@ -115,28 +118,29 @@ reproducibility of the analysis.
     library(dplyr)     ## For QA / data manipulation.
     library(pander)    ## For nice looking tables, etc.
 
-As of July, 2015, rmongodb returns a dramatic warning when running
-`library(rmongodb)`:
+Loading the rmongodb package, version 1.8.0, returns the following
+dramatic warning:
 
-> WARNING! There are some quite big changes in this version of rmongodb.
+> WARNING!
+
+> There are some quite big changes in this version of rmongodb.
 > mongo.bson.to.list, mongo.bson.from.list (which are workhorses of many
 > other rmongofb high-level functions) are rewritten. Please, TEST IT
 > BEFORE PRODUCTION USAGE. Also there are some other important changes,
 > please see NEWS file and release notes at
 > <https://github.com/mongosoup/rmongodb/releases/>
 
-I did not experienced any problems using rmongodb, other than a few I
-think I created for myself. Opening a connection to Mongo is similar to
-opening a connection to a RDBMS[2]. Mongo stores data in an object
-called a collection, which is sorta-kinda like a table in a traditional
-RDBMS. However, unlike a table, the structure of a collection is not
-defined prior to use. There are several other important differences,
-which you can learn about by reading the [introduction
-tutorial](https://www.mongodb.org/about/introduction/) written by the
-developers.
+In spite of this warning, appears to have worked fine. Opening a
+connection to Mongo is similar to opening a connection to a RDBMS. Mongo
+stores data in an object called a collection, which is sorta-kinda like
+a table in a traditional RDBMS. However, unlike a table, the structure
+of a collection is not defined prior to use. There are several other
+important differences, which you can learn about by reading the
+[introduction tutorial](https://www.mongodb.org/about/introduction/)
+written by actual mongo experts.
 
 The following code chunk returns a list of all the collections which
-exist in our Nighscout database. The "entries" collection is the only
+exist in the Nighscout database. The "entries" collection is the only
 collection we are interested in today. The database name,
 lade\_k\_nightscout is prepended to each collection name.
 
@@ -159,19 +163,19 @@ lade\_k\_nightscout is prepended to each collection name.
 -   lade\_k\_nightscout.treatments
 
 <!-- end of list -->
-The next code chunk will produce some variables needed to temporarily
-hold the Nightscout data. When importing data from a RDBMS, it is normal
-practice to place the imported data into a R data frame. When importing
-data from a non-relational database such as Mongo, we need to import the
-data as a series of vectors. This is further complicated by the fact
-that records have a different number of fields and we have to handle the
-NULL values in R, rather than via the database.
+The next code chunk will produce some vectors needed to hold the
+Nightscout data before it is turned into a data frame. When importing
+data from a RDBMS, it is normal practice to place the imported data
+directly into a R data frame. When importing data from Mongo, the data
+must first be placed into vectors. This is further complicated by the
+fact that records have a different number of fields and we have to
+handle the NULL values in R, rather than via the database.
 
-The query imports thousands of records. Rather than build each vector
-incrementally, it is faster and more memory efficient to create vectors
-large enough to hold all of the data present in the server. The
-variable, ns\_count, is used to hold the number of records in the
-"entries" collection.
+The following query imports all of the data in the enties collection.
+Rather than build each vector incrementally, it is faster and more
+memory efficient to create vectors large enough to hold all of the data
+present in the server. The variable, ns\_count, is used to hold the
+number of records in the "entries" collection.
 
     ## Make sure we still have a connection ----------------------------------------
     if(mongo.is.connected(con) == FALSE) stop("Mongo connection has been terminated.")
@@ -205,17 +209,16 @@ variable, ns\_count, is used to hold the number of records in the
     intercept  <- vector("numeric",ns_count)
     scale      <- vector("numeric",ns_count)
 
-As of 2015-07-17 the "entries" collection contains 11,960 records. That
-is a lot of data, about a single person. The next code chunk imports all
-of the records in the collection and places the data into the vectors
-produced above.
+As of 2015-07-28 the "entries" collection contains
+`r format(ns_count, big.mark=",")` records. That is a lot of data, about
+a single person. The following code chunk imports the records in
+'entries' and places the data into the vectors produced above.
 
-The use of the "ns\_cursor" variable should be familiar to anyone with
-web-development experience. A mongo cursor works in much the same way a
-RDBMS cursor works. It returns a single record at a time. This appears
-to be the preferred way of getting results from Mongo. This is very
-different than importing data from a RDBMS, which would normally be
-imported directly as a data frame.
+The "ns\_cursor" variable is a cursor, an approach which should be
+familiar to web-developers. The cursor returns a single record at a
+time. The use of a loop feels odd because R programming usually avoids
+using loops but this does appear to be the preferred way of getting
+importing data from Mongo.
 
     ## Get the CGM Data, with a LOOP -----------------------------------------------
     ## The examples I found on the Internet always show this loop as a while loop.
@@ -232,6 +235,7 @@ imported directly as a data frame.
         cval = mongo.cursor.value(ns_cursor)
 
         ## Place the values of the record into the appropriate location in the vectors.
+        ## Must catch NULLS for each record or the vectors will have different lengths when we are done.
         device[i] <- if( is.null(mongo.bson.value(cval, "device")) ) NA else mongo.bson.value(cval, "device")
         date[i] <- if( is.null(mongo.bson.value(cval, "date")) ) NA else mongo.bson.value(cval, "date")
         dateString[i] <- if(is.null(mongo.bson.value(cval, "dateString")) ) NA else mongo.bson.value(cval, "dateString")
@@ -277,14 +281,10 @@ imported directly as a data frame.
                                   )
                              )
 
-There is one really annoying aspect about this code. Mongo allows each
-record to contain a different number of data elements. Thus, not all
-records have a "mbg" element. Thus, rather than just asking the "cval"
-variable for the value of the data element, it must first check to see
-if it exists. If it doesn't, the client must create the NA (NULL) value.
-Mongo can store NULL values. It can also not have a data element and the
-two are different and must be handled on the client-side. This took me a
-while to figure out.
+Mongo allows each record to have a different number of data elements.
+Thus, not all records include a "mbg" element. Thus, NULLS must be
+handled by the client. Querying a collection with a rapidly changing
+data structure can be a little complicated.
 
 The next code chunk does some very minimal QA on the "entries" data
 frame. If the data frame has 0 rows, it will force the script to stop.
@@ -319,21 +319,20 @@ imported data set.
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">11960</td>
-<td align="center">62</td>
-<td align="center">43</td>
-<td align="center">2015-07-17</td>
+<td align="center">14125</td>
+<td align="center">73</td>
+<td align="center">FALSE</td>
+<td align="center">2015-07-28</td>
 </tr>
 </tbody>
 </table>
 
-The following code chunk returns the number of rows per day, to make
-sure the "rig" is properly working and uploading data. This is
-restricted to a specific time frame, because we don't want to look at
-all of the data in this data frame.
+The following code chunk returns the number of entries recorded each day
+between June 20 and June 30. Each entry is an independent intersitial
+glucose reading recorded by her CGM.
 
     entries %>%
-        filter(date >= "2015-06-20" & date <= "2015-07-07") %>%
+        filter(date >= "2015-06-20" & date <= "2015-06-30") %>%
         group_by( "Date" = format.POSIXct(.$date, format="%F") ) %>%
         summarize("N Entries" = n() ) %>%
         pander()
@@ -386,49 +385,22 @@ all of the data in this data frame.
 <td align="center">2015-06-29</td>
 <td align="center">282</td>
 </tr>
-<tr class="even">
-<td align="center">2015-06-30</td>
-<td align="center">285</td>
-</tr>
-<tr class="odd">
-<td align="center">2015-07-01</td>
-<td align="center">276</td>
-</tr>
-<tr class="even">
-<td align="center">2015-07-02</td>
-<td align="center">283</td>
-</tr>
-<tr class="odd">
-<td align="center">2015-07-03</td>
-<td align="center">256</td>
-</tr>
-<tr class="even">
-<td align="center">2015-07-04</td>
-<td align="center">283</td>
-</tr>
-<tr class="odd">
-<td align="center">2015-07-05</td>
-<td align="center">269</td>
-</tr>
-<tr class="even">
-<td align="center">2015-07-06</td>
-<td align="center">290</td>
-</tr>
 </tbody>
 </table>
 
-June 21 was the first day we used the new CGM Platinum w/ Share CGM. I
-set it up late at night. As a result, it only recorded 15 records on
-that day. Karen believes she changed her sensor out on June 27, which is
-why there are only 85 records there. We aren't sure what happened on
-June 28th. For some reason the rig either was not reading or it wasn't
-communicating with the server. We aren't sure. The other days are fairly
-consistent, but shows that the number of records recorded does vary by
-day.
+I set up Karen's current rig late on June 21. As a result, Karen's rig
+only recorded 15 records on that 'day'. Karen believes she changed her
+sensor out on June 27, which is why there are only 85 records on that
+day. For some reason the rig was not reading correctly or it wasn't
+communicating with the server on the 28th. The other days are fairly
+consistent, but the table does demonstrate how the number of entries
+recorded does vary a little each day.
 
-The final code chunk creates a date-stamped data set. I'll try to add a
+The final code chunk exports a date-stamped CSV file. I'll try to add a
 new data set periodically to the public data if anyone wants to use it.
-Old data sets will remain frozen, for reproducibility purposes.
+Old data sets will remain frozen, for reproducibility purposes, but may
+disappear at some point in the future. Don't expect there to be more
+than 5 data sets in the data folder.
 
     ## Saves the data as a CSV file ------------------------------------------------
     ## You are welcome to use the data stored publicly in the data folder.
@@ -437,8 +409,3 @@ Old data sets will remain frozen, for reproducibility purposes.
 
     ## Clean up the session and good-bye.
     rm(list=ls())
-
-[1] If anyone leaves a comment proving me wrong, I will amend this
-statement.
-
-[2] I make these comparisons, because it is what I know.
