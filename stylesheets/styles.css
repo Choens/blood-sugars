@@ -98,7 +98,7 @@ img {
 
 header {
     /* width:270px; */
-    width:25%;
+    width:20%;
     float:left;
     position:fixed;
     /* border-right:3px solid #e5e5e5; */
@@ -172,7 +172,7 @@ header.post {
 
 section {
     /* width:500px; */
-    width:62%;
+    width:75%;
     float:right;
     padding-bottom:50px;
 }
@@ -190,7 +190,7 @@ hr {
 
 footer {
     /* width:270px; */
-    width:25%;
+    width:20%;
     float:left;
     position:fixed;
     bottom:50px;
