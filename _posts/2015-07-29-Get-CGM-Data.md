@@ -64,7 +64,6 @@ R Packages
 There are three R packages able to query a Mongo database:
 
 -   [RMongo](http://cran.r-project.org/web/packages/RMongo/index.html)
-    and
 -   [rmongodb](http://cran.r-project.org/web/packages/rmongodb/index.html).
 -   [Mongolite](https://cran.r-project.org/web/packages/Mongolite/index.html)
 
