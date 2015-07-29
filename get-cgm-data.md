@@ -12,6 +12,13 @@ I have been using the [Robomongo](http://robomongo.org/) application to
 view Mongo JSON data directly in the db server. Like R, it is FOSS and
 is available for Linux, Mac and Windows.
 
+Objectives
+==========
+
+1.  Import Nightscout data (JSON) and turn it into a R data frame.
+2.  Briefly examine / QA the Nightscout data.
+3.  Export the Nightscout data as a CSV file.
+
 Code & Data
 ===========
 
@@ -30,68 +37,59 @@ collected prior to June 2015 is less consistent due to the limitations
 with the previous rig and mistakes we made figuring out how to use it. I
 do not recommend using data collected prior to June 2015 for analysis.
 
-Goals
-=====
-
-1.  *DONE:* Query Karen's Nightscout database.
-2.  *DONE:* Import Nightscout data (JSON) and turn it into a R data
-    frame.
-3.  *DONE:* QA this data frame (number of entries, data completeness,
-    etc.).
-4.  *DONE:* Export the data frame as a CSV for further analysis.
-5.  *IN PROGRESS:* Develop a function to simplify the query process
-    against Nightscout databases.
-
-Goals \#1 and \#2 were hard because I am not an experienced Mongo
-programmer. Goals \#3 and \#4 were easy, these "goals" are basic R
-programming. Goal \#5, a function to simplify querying the Nightscout
-data, will be completed at a later date. I will build upon what I
-demonstrate here in that process.
-
 R Packages
 ==========
 
-There are two R packages able to query Mongo:
+There are three R packages able to query a Mongo database:
 
 -   [RMongo](http://cran.r-project.org/web/packages/RMongo/index.html)
     and
 -   [rmongodb](http://cran.r-project.org/web/packages/rmongodb/index.html).
+-   [mongolite](https://cran.r-project.org/web/packages/mongolite/index.html)
 
-I skimmed the documentation for both packages. RMongo looked easier to
-use so I tried it first. Unfortunately, I was never able to connect to
-our Mongo server running on [mongolab](https://mongolab.com/) using
-RMongo. RMongo appears to lack the ability to connect to Mongo using
-user names, passwords or custom ports. All three of these re required to
-connect to a mongolab server. Based on the documentation, RMongo has a
-more R-centric API and it is probably great if you want to connect to a
-local Mongo server.
+When I first started writing this, I only knew about the first two. I
+have not yet tried to use mongolite. I'll write a separate post
+discussing it.
 
-The second package, rmongodb, is complicated but works well. This
-package loops over a cursor, an algorithm commonly used in web
-development but not in R which tends to avoid loops. Although it feels
-unnecessarily complicated, it works well and it is fast. Structural
-differences in JSON objects and data structures used in R add additional
+I skimmed the documentation for the first two packages. RMongo looked
+easier to use so I tried it first. Unfortunately, I was never able to
+connect to our Mongo server running on [mongolab](https://mongolab.com/)
+using RMongo. RMongo is not able to connect to Mongo using user names,
+passwords or custom ports. All three of these are required to connect to
+a mongolab server. Based on the documentation, RMongo has a more
+R-centric API and it is probably great if you want to connect to a local
+Mongo server. But that isn't what I want to do, so I stopped working
+with it. Because I was never able to connect to my mongo server, the
+example code below does not include RMongo.
+
+The second package, rmongodb, feels more complicated but it works well.
+This package loops over a cursor to import the data one entry at a time.
+Looping over a cursor object is an algorithm commonly used in web
+development but not in R, which tends to avoid loops. Using a cursor in
+R feels unnecessarily complicated, it works. Most of the example code
+you will find for using rmongodb is simplistic compared to what I have
+written here, because most of the examples I have found are querying
+much simpler collections. Although mongo is certainly very fast, I find
+the additional complexity frustrating. Structural differences in JSON
+objects and native R data structures are and additional source of
 complexity to the code below.
 
-Goals 1 & 2: Import & Convert To Data Frame
-===========================================
+I am hopeful that mongolite will simplify this. In the meantime, this is
+a workable solution for importing data from a Nightscout database.
 
-Nearly all of my database experience is with Relational Database
-Management Systems (RDBMS) such as Postgres or SQL Server. To succeed
-with rmongodb, I had to adopt a different work flow than I am used to.
-It isn't really harder, but it quite different compared to what I would
-do to query data via RODBC or other RDBMS-oriented package.
+Import Nightscout data (JSON) and turn it into a R data frame
+=============================================================
 
-Init Chunk
-----------
+My literate programming documents always start with a chunk called init,
+to define variables, load packages, etc. This script has three
+dependencies, rmongodb, dplyr and pander. Normally this code chunk would
+be hidden. Because this is an example, it is visible below.
 
-I always start with a chunk called init, to define variables, load
-packages, etc. This script has two dependencies, rmongodb and dplyr.
-
-The file, passwords.R is not part of the public repo for security
-reasons. Thus, you cannot run this code as easily as some other code for
-R. If you have your own Nightscout mongo server running, you can adopt
-the code in the
+The file, passwords.R, is not part of the public repo for security
+reasons. This may be frustrating because the example code herein cannot
+be run immediately on your own system and for that I apologize. As
+written, this code is only runnable if you have access to a Nightscout
+server. If you do, you can adopt the code in the
 [passwords.example.R](https://github.com/Choens/blood-sugars/blob/master/passwords.example.R)
 file to connect to your own database.
 
@@ -121,14 +119,13 @@ dramatic warning:
 > please see NEWS file and release notes at
 > <https://github.com/mongosoup/rmongodb/releases/>
 
-In spite of this warning, appears to have worked fine. Opening a
-connection to Mongo is similar to opening a connection to a RDBMS. Mongo
-stores data in an object called a collection, which is sorta-kinda like
-a table in a traditional RDBMS. However, unlike a table, the structure
-of a collection is not defined prior to use. There are several other
-important differences, which you can learn about by reading the
-[introduction tutorial](https://www.mongodb.org/about/introduction/)
-written by actual mongo experts.
+In spite of this warning, it worked fine. Mongo stores data in an object
+called a collection, which is similar to a table in a traditional RDBMS.
+However, unlike a table, the structure of a collection is not defined
+prior to use. There are several other differences, which you can learn
+about by reading the [introduction
+tutorial](https://www.mongodb.org/about/introduction/) which is written
+by actual mongo experts.
 
 The following code chunk returns a list of all the collections which
 exist in the Nighscout database. The "entries" collection is the only
@@ -154,19 +151,15 @@ lade\_k\_nightscout is prepended to each collection name.
 -   lade\_k\_nightscout.treatments
 
 <!-- end of list -->
-The next code chunk will produce some vectors needed to hold the
+The next code chunk will produce some empty vectors needed to hold the
 Nightscout data before it is turned into a data frame. When importing
 data from a RDBMS, it is normal practice to place the imported data
-directly into a R data frame. When importing data from Mongo, the data
+directly into an R data frame. When importing data from Mongo, the data
 must first be placed into vectors. This is further complicated by the
-fact that records have a different number of fields and we have to
-handle the NULL values in R, rather than via the database.
-
-The following query imports all of the data in the enties collection.
-Rather than build each vector incrementally, it is faster and more
-memory efficient to create vectors large enough to hold all of the data
-present in the server. The variable, ns\_count, is used to hold the
-number of records in the "entries" collection.
+fact that some records have a different number of fields and we have to
+handle the NULL values in R, rather than via the database. Complexities
+like this make this code much more complicated than a simple 'select \*
+from foo;' query in a RDBMS.
 
     ## Make sure we still have a connection ----------------------------------------
     if(mongo.is.connected(con) == FALSE) stop("Mongo connection has been terminated.")
@@ -200,16 +193,16 @@ number of records in the "entries" collection.
     intercept  <- vector("numeric",ns_count)
     scale      <- vector("numeric",ns_count)
 
-As of 2015-07-28 the "entries" collection contains
+As of 2015-07-29 the "entries" collection contains
 `r format(ns_count, big.mark=",")` records. That is a lot of data, about
 a single person. The following code chunk imports the records in
 'entries' and places the data into the vectors produced above.
 
-The "ns\_cursor" variable is a cursor, an approach which should be
-familiar to web-developers. The cursor returns a single record at a
-time. The use of a loop feels odd because R programming usually avoids
-using loops but this does appear to be the preferred way of getting
-importing data from Mongo.
+The 'ns\_cursor' variable is a cursor. Looping over a cursor to get
+row-specific returns is an approach which should be familiar to
+web-developers. The use of a cursor loop feels odd because R programming
+usually avoids loops like the plague but this approach works and appears
+to be the preferred way of importing data from Mongo.
 
     ## Get the CGM Data, with a LOOP -----------------------------------------------
     ## The examples I found on the Internet always show this loop as a while loop.
@@ -273,9 +266,12 @@ importing data from Mongo.
                              )
 
 Mongo allows each record to have a different number of data elements.
-Thus, not all records include a "mbg" element. Thus, NULLS must be
-handled by the client. Querying a collection with a rapidly changing
-data structure can be a little complicated.
+Thus, not all records include a 'mbg' element. Furthermore, NULLS must
+be handled by the client. Querying a collection with a complicated data
+structure requires some trial and error.
+
+Briefly examine / QA the Nightscout data
+========================================
 
 The next code chunk does some very minimal QA on the "entries" data
 frame. If the data frame has 0 rows, it will force the script to stop.
@@ -310,20 +306,23 @@ imported data set.
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">14125</td>
-<td align="center">73</td>
+<td align="center">14368</td>
+<td align="center">74</td>
 <td align="center">FALSE</td>
-<td align="center">2015-07-28</td>
+<td align="center">2015-07-29</td>
 </tr>
 </tbody>
 </table>
 
 The following code chunk returns the number of entries recorded each day
-between June 20 and June 30. Each entry is an independent intersitial
-glucose reading recorded by her CGM.
+between June 20 and July 05. Each entry is an independent intersitial
+glucose reading. These readings are uploaded via the rig to the
+Nightscout database. Assuming everything is working, the sensor takes a
+new reading every five minutes. These entries are then uploaded to the
+database, for an expected average of 288 entries per day.
 
     entries %>%
-        filter(date >= "2015-06-20" & date <= "2015-06-30") %>%
+        filter(date >= "2015-06-20" & date <= "2015-07-05") %>%
         group_by( "Date" = format.POSIXct(.$date, format="%F") ) %>%
         summarize("N Entries" = n() ) %>%
         pander()
@@ -376,16 +375,54 @@ glucose reading recorded by her CGM.
 <td align="center">2015-06-29</td>
 <td align="center">282</td>
 </tr>
+<tr class="even">
+<td align="center">2015-06-30</td>
+<td align="center">285</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-07-01</td>
+<td align="center">276</td>
+</tr>
+<tr class="even">
+<td align="center">2015-07-02</td>
+<td align="center">283</td>
+</tr>
+<tr class="odd">
+<td align="center">2015-07-03</td>
+<td align="center">256</td>
+</tr>
+<tr class="even">
+<td align="center">2015-07-04</td>
+<td align="center">283</td>
+</tr>
 </tbody>
 </table>
 
-I set up Karen's current rig late on June 21. As a result, Karen's rig
-only recorded 15 records on that 'day'. Karen believes she changed her
-sensor out on June 27, which is why there are only 85 records on that
-day. For some reason the rig was not reading correctly or it wasn't
-communicating with the server on the 28th. The other days are fairly
-consistent, but the table does demonstrate how the number of entries
-recorded does vary a little each day.
+Nightscout users refer to the hardware and software used to manage their
+data as a 'rig'. The previous table is interesting because it shows the
+variability in the amount of data collected via the rig. There are
+several days which have far less than the expected number of entries.
+
+-   June 21: I set up Karen's current rig on the evening of the 21st.
+    Because it was late, Karen's rig only recorded 15 entries on that
+    'day'.
+-   June 27: Karen believes she replaced her CGM sensor on June 27.
+    There was a period of several hours of no data after the old sensor
+    failed and an additional time gap while she was syncing the new
+    sensor to her CGM. As a result of those gaps, there are only 85
+    records on the 27th.
+-   June 28: The small number of entries on the 28th is a small mystery.
+    For some reason the sensor was not communicating with the receiver
+    correctly or the rig failed to upload the data to the server. We
+    don't know which.
+
+The other days are fairly consistent, but the table does demonstrate how
+the number of entries recorded can vary dramatically. The inconsistency
+in the quantity of data will have an impact on our ability to use
+Nightscout data to predict her future blood glucose levels.
+
+Export the Nightscout data as a CSV file
+========================================
 
 The final code chunk exports a date-stamped CSV file. I'll try to add a
 new data set periodically to the public data if anyone wants to use it.
