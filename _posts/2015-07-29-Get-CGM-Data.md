@@ -11,7 +11,7 @@ About
 =====
 
 We store all of Karen's CGM / Blood Glucose data on a
-[Nighscout](https://nightscout.github.io/) database. The database is a
+[Nightscout](https://nightscout.github.io/) database. The database is a
 [Mongodb](https://www.mongodb.org) (Mongo) instance running on a cloud
 server controlled by our family. I intend to use this data to better
 understand her diabetes. In order to do so, I have to learn how to use
@@ -147,7 +147,7 @@ Collections
 -----------
 
 The following code chunk returns a list of all the collections which
-exist in the Nighscout database. The "entries" collection is the only
+exist in the Nightscout database. The "entries" collection is the only
 collection we are interested in today. The database name,
 lade\_k\_nightscout is prepended to each collection name.
 
