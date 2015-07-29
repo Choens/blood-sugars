@@ -23,7 +23,7 @@ Objectives Of This Post
 This post is a documented code example to help myself and others use
 Mongo and R for analytics. My objectives for this post include:
 
-1.  Import Nightscout data (JSON) and turn it into a R data frame.
+1.  Import Nightscout data (JSON) to an R data frame.
 2.  Briefly examine / QA the Nightscout data.
 3.  Export the Nightscout data as a CSV file.
 
@@ -94,7 +94,7 @@ Nightscout database. I only learned about mongolite this week and have
 not yet tried to use it. I will write a separate post to discuss the
 results of that effort.
 
-Import Nightscout Data (JSON) And Turn It Into An R Data Frame
+Import Nightscout Data (JSON) To An R Data Frame
 =============================================================
 
 This R code has three dependencies, rmongodb, dplyr and pander. Dplyr
@@ -220,7 +220,7 @@ As of 2015-07-29 the "entries" collection contains
 a single person. The following code chunk imports the records in
 'entries' and places the data into the vectors produced above.
 
-Import The Data
+Import Nightscout Data
 ---------------
 
 The 'ns\_cursor' variable is a cursor. Looping over a cursor to get
@@ -290,7 +290,7 @@ all records include a 'mbg' element. Furthermore, NULLS must be handled
 by the client. Querying a collection with a complicated data structure
 requires some trial and error.
 
-Briefly Examine / QA the Nightscout Data
+Briefly Examine / QA Nightscout Data
 ========================================
 
 The next code chunk does some very minimal QA on the "entries" data
@@ -442,7 +442,7 @@ the number of entries recorded can vary dramatically. The inconsistency
 in the quantity of data will have an impact on our ability to use
 Nightscout data to predict her future blood glucose levels.
 
-Export The Nightscout Data As A CSV File
+Export Nightscout Data As A CSV File
 ========================================
 
 The final code chunk exports a date-stamped CSV file. Feel free to
