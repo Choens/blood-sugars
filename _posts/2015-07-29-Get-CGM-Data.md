@@ -94,7 +94,7 @@ Nightscout database. I only learned about mongolite this week and have
 not yet tried to use it. I will write a separate post to discuss the
 results of that effort.
 
-Import Nightscout data (JSON) and turn it into a R data frame
+Import Nightscout Data (JSON) And Turn It Into An R Data Frame
 =============================================================
 
 This R code has three dependencies, rmongodb, dplyr and pander. Dplyr
@@ -290,7 +290,7 @@ all records include a 'mbg' element. Furthermore, NULLS must be handled
 by the client. Querying a collection with a complicated data structure
 requires some trial and error.
 
-Briefly examine / QA the Nightscout data
+Briefly Examine / QA the Nightscout Data
 ========================================
 
 The next code chunk does some very minimal QA on the "entries" data
@@ -442,7 +442,7 @@ the number of entries recorded can vary dramatically. The inconsistency
 in the quantity of data will have an impact on our ability to use
 Nightscout data to predict her future blood glucose levels.
 
-Export the Nightscout data as a CSV file
+Export The Nightscout Data As A CSV File
 ========================================
 
 The final code chunk exports a date-stamped CSV file. Feel free to
