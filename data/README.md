@@ -1,10 +1,7 @@
 # Data
 
-## Data Files
+*entries-2015-07-29.csv*
 
-*example.csv*
-
-- Data Source: 
-- Data Info: 
-- Date: 
+- Data Source: Karen's Nightscout Database
+- Date: 2015-07-29
 
