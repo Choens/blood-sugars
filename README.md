@@ -25,17 +25,17 @@ You *can* do all of this with an Apple Phone and Apple watch ($$$) or
 you can DIY and build your own rig as we have. As of June 2015, the
 Dexcom website does not list Android as a supported platform for
 cloud-based CGM and there are no publicly announced plans to support
-the Android platform, let along the Pebble Watch. The applications we
+the Android platform, let alone the Pebble Watch. The applications we
 are using are all open source and available to anyone who wants to
 learn more about diabetes self-management (diabetic required). Unlike
 the Apple-based system, the rig we are using is not FDA certified.
 
 ### Motivation:
 
-My wife, Karen, is the motivation behind this project. As a T1D, her
-body does not produce insulin. This means her body cannot properly
-process or control glucose (sugar) in her system. The following image
-is an "ideal" glucose-insulin curve pattern I found on
+My wife is the motivation behind this project. As a T1D, her body does
+not produce insulin. This means her body cannot properly process or
+control glucose (sugar) in her system. The following image is an
+"ideal" glucose-insulin curve pattern I found on
 [Wikipedia](https://en.wikipedia.org/wiki/Blood_sugar#/media/File:Suckale08_fig3_glucose_insulin_day.png).
 
 ![Normal Blood Glucose Curves](images/suckale08_fig3_glucose_insulin_day.png
@@ -44,19 +44,19 @@ is an "ideal" glucose-insulin curve pattern I found on
  from Nature Precedings, original data: Daly et al. 1998 PMID
  9625092")
 
-She controls her blood glucose levels by using an external supply of
-insulin which is injected into her body via a "pump" she wears at all
-times. Maintaining homeostasis requires external tools and conscious
-maintenance. The CGMs compliment other methods of measuing blood
-glucose levels, such as the classic finger-prick method. The finger
-prick method is actuall MORE accurate than the CGM, but is more
-involved and is done infrequently thoughout the day.
+Karen controls her blood glucose levels manually using an external
+supply of insulin which is injected into her body via a "pump" she
+wears at all times. Maintaining homeostasis requires external tools
+and conscious maintenance. The CGMs compliment other methods of
+measuring blood glucose levels, such as the classic finger-prick
+method. The finger prick method is actuall more accurate than the CGM,
+but is more involved and is done infrequently thoughout the day.
 
 Continuous Glucose Monitors such as the Dexcom G4 are revolutionary
 because they measure interstitial glucose levels roughly every 5
 minutes. And they do so without the conscious aid or effort of the
 diabetic. Using alarms to notify the T1D of lows and highs can improve
-blood glucose control AND simplify the life of the T1D. Correcting
+blood glucose control and simplify the life of the T1D. Correcting
 glucose imbalances is still a conscious process, but CGMs do simplify
 and automate part of the monitoring process.
 
@@ -68,7 +68,7 @@ diabetic's interstitial fluid. Interstitial glucose levels are a
 lagging indicator of blood glucose level. Thus, by the time the CGM
 detects a change in the interstitial glucose levels, the diabetic may
 already be quite high or quite low. This is especially true for
-brittle T1Ds like Karen who can fluctuate rapidly.
+brittle T1Ds, like Karen, who can fluctuate rapidly.
 
 With all that said, these things are _awesome_. The ability to get
 near-real-time feedback is a game changer for diabetes self
