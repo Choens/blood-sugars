@@ -49,8 +49,8 @@ supply of insulin which is injected into her body via a "pump" she
 wears at all times. Maintaining homeostasis requires external tools
 and conscious maintenance. The CGMs compliment other methods of
 measuring blood glucose levels, such as the classic finger-prick
-method. The finger prick method is actuall more accurate than the CGM,
-but is more involved and is done infrequently thoughout the day.
+method. The finger prick method is actually more accurate than the
+CGM, but is more involved and is done infrequently thoughout the day.
 
 Continuous Glucose Monitors such as the Dexcom G4 are revolutionary
 because they measure interstitial glucose levels roughly every 5
