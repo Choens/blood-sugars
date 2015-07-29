@@ -313,11 +313,11 @@ entries %>%
 ```
 
 The following code chunk returns the number of records saved each day
-between June 20 and July 05. Each record is an independent intersitial
-glucose reading. These records are uploaded via the rig to the
-Nightscout database. Assuming everything is working, the sensor takes
-a new reading every five minutes. The reading is then uploaded to the
-database, for an expected average of 288 records per day.
+between June 20 and July 05. Each record is an independent
+interstitial glucose reading. These records are uploaded via the rig
+to the Nightscout database. Assuming everything is working, the sensor
+takes a new reading every five minutes. The reading is then uploaded
+to the database, for an expected average of 288 records per day.
 
 ```{r data-qa-2}
 
