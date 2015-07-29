@@ -108,6 +108,7 @@ server. If you do, you can adopt the code in the
 [passwords.example.R](https://github.com/Choens/blood-sugars/blob/master/passwords.example.R)
 file to connect to your own database.
 
+{% highlight r %}
     ## passwords.R -----------------------------------------------------------------
     ## Defines the variables I don't want to post to GitHub. (Sorry)
     ## ns is short for Nightscout.
@@ -121,7 +122,8 @@ file to connect to your own database.
     library(rmongodb)  ## For importing the data.
     library(dplyr)     ## For QA / data manipulation.
     library(pander)    ## For nice looking tables, etc.
-
+{% endhighlight %}
+    
 Loading the rmongodb package, version 1.8.0, returns the following
 warning:
 
@@ -150,6 +152,7 @@ exist in the Nightscout database. The "entries" collection is the only
 collection we are interested in today. The database name,
 lade\_k\_nightscout is prepended to each collection name.
 
+{% highlight r %}
     ## Open a connection to Mongo --------------------------------------------------
     con <- mongo.create(host = ns_host,
                         username = ns_user,
@@ -163,7 +166,8 @@ lade\_k\_nightscout is prepended to each collection name.
 
     ns_collections <- mongo.get.database.collections(con, ns_db)
     pandoc.list(ns_collections)
-
+{% endhighlight %}
+    
 -   lade\_k\_nightscout.entries
 -   lade\_k\_nightscout.devicestatus
 -   lade\_k\_nightscout.treatments
@@ -182,6 +186,7 @@ handle the NULL values in R, rather than via the database. Complexities
 like this make this code much more complicated than a simple 'select \*
 from foo;' query in a RDBMS.
 
+{% highlight r %}
     ## Make sure we still have a connection ----------------------------------------
     if(mongo.is.connected(con) == FALSE) stop("Mongo connection has been terminated.")
 
@@ -213,7 +218,8 @@ from foo;' query in a RDBMS.
     slope      <- vector("numeric",ns_count)
     intercept  <- vector("numeric",ns_count)
     scale      <- vector("numeric",ns_count)
-
+{% endhighlight %}
+    
 As of 2015-07-29 the "entries" collection contains
 `r format(ns_count, big.mark=",")` records. That is a lot of data, about
 a single person. The following code chunk imports the records in
@@ -228,6 +234,7 @@ web-developers. The use of a cursor loop feels odd because R programming
 usually avoids loops like the plague but it works and appears to be the
 preferred way of importing data from Mongo.
 
+{% highlight r %}
     ## Get the CGM Data, with a LOOP -----------------------------------------------
 
     i = 1
@@ -283,7 +290,8 @@ preferred way of importing data from Mongo.
                                    scale = scale
                                   )
                              )
-
+{% endhighlight %}
+                             
 Mongo allows each to have a different number of data elements. Thus, not
 all records include a 'mbg' element. Furthermore, NULLS must be handled
 by the client. Querying a collection with a complicated data structure
@@ -297,6 +305,7 @@ frame. If the data frame has 0 rows, it will force the script to stop.
 Otherwise, it returns a table with some basic meta-data about the
 imported data set.
 
+{% highlight r %}
     if(dim(entries)[1] == 0) stop("Entries variable contains no rows.")
 
     entries %>%
@@ -307,6 +316,7 @@ imported data set.
             "Last Day" = max( format.POSIXct(.$date, format="%F" ))
             ) %>%
         pander()
+{% endhighlight %}
 
 <table>
 <colgroup>
@@ -340,11 +350,13 @@ Nightscout database. Assuming everything is working, the sensor takes a
 new reading every five minutes. The reading is then uploaded to the
 database, for an expected average of 288 records per day.
 
+{% highlight r %}
     entries %>%
         filter(date >= "2015-06-20" & date <= "2015-07-05") %>%
         group_by( "Date" = format.POSIXct(.$date, format="%F") ) %>%
         summarize("N Entries" = n() ) %>%
         pander()
+{% endhighlight %}
 
 <table>
 <colgroup>
@@ -452,6 +464,7 @@ sets will remain frozen, for reproducibility purposes, but may disappear
 at some point in the future. Don't expect there to be more than 5 data
 sets in the data folder.
 
+{% highlight r %}
     ## Saves the data as a CSV file ------------------------------------------------
     ## You are welcome to use the data stored publicly in the data folder.
     file_name <- paste("data/entries-", Sys.Date(), ".csv", sep="")
@@ -459,3 +472,4 @@ sets in the data folder.
 
     ## Clean up the session and good-bye.
     rm(list=ls())
+{% endhighlight %}
