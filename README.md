@@ -11,9 +11,9 @@ glucose data obtained from the
 >
 > [Wikipedia/Blood_sugar](https://en.wikipedia.org/wiki/Blood_sugar)
 
-*Note:*None of this code has been reviewed by the FDA. Use at your own
-risk. If you find a bug, let me know. I welcome contributions. I am
-not responsible for your health or diabetes management.
+*Note:* None of this code has been reviewed by the FDA. Use at your
+own risk. If you find a bug, let me know. I welcome contributions. I
+am not responsible for your health or diabetes management.
 
 The source of the raw data is a [Dexcom](http://www.dexcom.com/)
 [G4 Platinum System with Share](http://www.dexcom.com/dexcom-g4-platinum-share)
