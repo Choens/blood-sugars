@@ -1,8 +1,16 @@
 ### About This Project:
 
-This is a place for me to learn how to work with diabetes blood
-glucose data obtained from the
-[Nightscout](http://www.nightscout.info/) Project.
+A place for me to learn more about diabetes self-management and
+prediction using CGM data obtained from our
+[Nightscout](http://www.nightscout.info/">) server.
+
+### Disclaimers:
+
+- None of this code has been reviewed by the FDA. Use at your
+  own risk.
+- Ia m not responsible for your health or diabetes management.
+- I welcome contributions. If you find a bug, let me know.
+- [#WEARENOTWAITING](https://twitter.com/hashtag/wearenotwaiting)
 
 > The blood sugar concentration or blood glucose level is the amount
 > of glucose (sugar) present in the blood of a human or animal. The
@@ -10,10 +18,6 @@ glucose data obtained from the
 > metabolic homeostasis.
 >
 > [Wikipedia/Blood_sugar](https://en.wikipedia.org/wiki/Blood_sugar)
-
-*Note:* None of this code has been reviewed by the FDA. Use at your
-own risk. If you find a bug, let me know. I welcome contributions. I
-am not responsible for your health or diabetes management.
 
 The source of the raw data is a [Dexcom](http://www.dexcom.com/)
 [G4 Platinum System with Share](http://www.dexcom.com/dexcom-g4-platinum-share)
