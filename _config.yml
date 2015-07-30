@@ -20,14 +20,19 @@ github: Choens
 
 ## Config ======================================================================
 
-# Uses kramdown because GitHub told me to.
-markdown: rdiscount
+# Markdown Engine --------------------------------------------------------------
+markdown: kramdown
 
-# Makes pretty (descriptive) permalinks. See Jekyll docs for alternatives.
+# Permalinks -------------------------------------------------------------------
 permalink: date
 
-# How many articles do you wish to appear on the front page:
+# Number of articles do you wish to appear on the front page -------------------
 paginate: 7
 
-# Exclude metadata and development time dependencies (like Grunt plugins)
+# Exclude metadata and development time dependencies ---------------------------
 exclude: [README.markdown, package.json, grunt.js, Gruntfile.js, Gruntfile.coffee, node_modules]
+
+# Syntax Hightlingt ------------------------------------------------------------
+syntax-highlighting:
+  enabled : true
+  css: syntax.css
