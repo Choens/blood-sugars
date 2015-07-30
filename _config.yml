@@ -21,7 +21,8 @@ github: Choens
 ## Config ======================================================================
 
 # Markdown Engine --------------------------------------------------------------
-markdown: rdiscount
+markdown: kramdown
+highlighter: pygments
 
 # Permalinks -------------------------------------------------------------------
 permalink: date
@@ -33,6 +34,6 @@ paginate: 7
 exclude: [README.markdown, package.json, grunt.js, Gruntfile.js, Gruntfile.coffee, node_modules]
 
 # Syntax Hightlingt ------------------------------------------------------------
-syntax-highlighting:
-  enabled: true
-  css: syntax.css
+#syntax-highlighting:
+#  enabled: true
+#  css: syntax.css
