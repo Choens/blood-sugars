@@ -12,34 +12,6 @@ prediction using CGM data obtained from our
 - I welcome contributions. If you find a bug, let me know.
 - [#WEARENOTWAITING](https://twitter.com/hashtag/wearenotwaiting)
 
-### Data and Dexcom
-
-> The blood sugar concentration or blood glucose level is the amount
-> of glucose (sugar) present in the blood of a human or animal. The
-> body naturally tightly regulates blood glucose levels as a part of
-> metabolic homeostasis.
->
-> [Wikipedia/Blood_sugar](https://en.wikipedia.org/wiki/Blood_sugar)
-
-The source of the raw data is a [Dexcom](http://www.dexcom.com/)
-[G4 Platinum System with Share](http://www.dexcom.com/dexcom-g4-platinum-share)
-Continuous Glucose Monitor (CGM) worn by my wife, Karen, who has been
-a Type 1 Diabetic (T1D) since she was seven. We are using an Android
-app, [XDrip](https://stephenblackwasalreadytaken.github.io/xDrip/) to
-collect the data from the CGM and upload it to a Nighscout
-database. Her cloud-based CGM data drives a website which allows her
-to track her CGM data on her phone and
-[Pebble Watch](http://www.nightscout.info/wiki/labs/pebble_watchface_custom_alerts).
-
-You *can* do all of this with an Apple Phone and Apple watch ($$$) or
-you can DIY and build your own rig as we have. As of June 2015, the
-Dexcom website does not list Android as a supported platform for
-cloud-based CGM and there are no publicly announced plans to support
-the Android platform, let alone the Pebble Watch. The applications we
-are using are all open source and available to anyone who wants to
-learn more about diabetes self-management (diabetic required). Unlike
-the Apple-based system, the rig we are using is not FDA certified.
-
 ### Motivation:
 
 My wife is the motivation behind this project. As a T1D, her body does
@@ -100,4 +72,31 @@ software. If you are a diabetic and you want to take charge of how you
 manage your health, this is the best way I know of to do it. You are
 the one in charge, as it should be.
 
-##### [#WEARENOTWAITING](https://twitter.com/hashtag/wearenotwaiting)
+### Data and Dexcom
+
+> The blood sugar concentration or blood glucose level is the amount
+> of glucose (sugar) present in the blood of a human or animal. The
+> body naturally tightly regulates blood glucose levels as a part of
+> metabolic homeostasis.
+>
+> [Wikipedia/Blood_sugar](https://en.wikipedia.org/wiki/Blood_sugar)
+
+The source of the raw data is a [Dexcom](http://www.dexcom.com/)
+[G4 Platinum System with Share](http://www.dexcom.com/dexcom-g4-platinum-share)
+Continuous Glucose Monitor (CGM) worn by my wife, Karen, who has been
+a Type 1 Diabetic (T1D) since she was seven. We are using an Android
+app, [XDrip](https://stephenblackwasalreadytaken.github.io/xDrip/) to
+collect the data from the CGM and upload it to a Nighscout
+database. Her cloud-based CGM data drives a website which allows her
+to track her CGM data on her phone and
+[Pebble Watch](http://www.nightscout.info/wiki/labs/pebble_watchface_custom_alerts).
+
+You *can* do all of this with an Apple Phone and Apple watch ($$$) or
+you can DIY and build your own rig as we have. As of June 2015, the
+Dexcom website does not list Android as a supported platform for
+cloud-based CGM and there are no publicly announced plans to support
+the Android platform, let alone the Pebble Watch. The applications we
+are using are all open source and available to anyone who wants to
+learn more about diabetes self-management (diabetic required). Unlike
+the Apple-based system, the rig we are using is not FDA certified.
+
