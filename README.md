@@ -12,6 +12,8 @@ prediction using CGM data obtained from our
 - I welcome contributions. If you find a bug, let me know.
 - [#WEARENOTWAITING](https://twitter.com/hashtag/wearenotwaiting)
 
+### Data and Dexcom
+
 > The blood sugar concentration or blood glucose level is the amount
 > of glucose (sugar) present in the blood of a human or animal. The
 > body naturally tightly regulates blood glucose levels as a part of
