@@ -108,7 +108,7 @@ Karen's CGM data.
 
 **This is the moment where I feel obligated to say the following:**
 The work here has not been reviewed by the FDA. Use at your own
-risk. I could be wrong. If you find a bug, let me know, I welcome
+risk. I could be wrong. If you find a bug, let me know. I welcome
 your input. However, I am not responsible for your health or
 diabetes management. This is a personal, part-time, side-project
 to learn more about CGM data.
