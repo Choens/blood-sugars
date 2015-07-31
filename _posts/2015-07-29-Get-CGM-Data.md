@@ -33,7 +33,7 @@ Code, Data, Tools
 =================
 
 *Code:* The .Rmd file used to create this post is available on
-[GitHub](https://github.com/Choens/blood-sugars/blob/master/get-cgm-data.Rmd).
+[GitHub](https://github.com/Choens/blood-sugars/blob/master/2015-07-29-get-cgm-data.Rmd).
 
 *Data:* Although I will not publish the user name and password to the
 Mongo database, we are publishing some of Karen's Nightscout data
