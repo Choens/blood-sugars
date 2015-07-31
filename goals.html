@@ -3,62 +3,140 @@ layout: default
 title: Goals
 ---
 
-<h2>
-    <a id="blood-sugar" class="anchor" href="#blood-sugar" aria-hidden="true"><span class="octicon octicon-link"></span>
-    </a>
-    Goals:
-</h2>
+<h2>Goals:</h2>
 
-<ul>
-    <li>
-        <strong>DONE:</strong> Setup and manage the Nightscout Mongo
-        database and website.</li>
-    <li>
-        <strong><span style="color:salmon">IN PROGRESS:</span></strong> Learn
-        how to effecively query the Mongo database from R. My ability
-        to restrict my query to records of interest is limited.
-    </li>
+<p>
+    This project has three broad sets of goals. The primary goal is to
+    provide new diabetest reporting and management tools based on
+    Nightscout data. I also have some personal learning goals and
+    intend to use this project as a test-bed for some of my ideas
+    regarding open / transparent research methodologies.
+</p>
 
-        <ul>
-            <li><strong>DONE:</strong> Experiment with RMongo.</li>
-            <li><strong>DONE:</strong> Experiment with rmgondb.</li>
-            <li><strong>TODO:</strong> Experiment with mongolite as a
-            possible alternative to rmongodb.</li>
-        </ul>
-    </li>
-    <li><strong>DONE:</strong> Import Nightscout data from Mongo into R.</li>
-    <li><strong>DONE:</strong> Export Nightscout data as a CSV file.</li>
-    <li>
-        <strong><span style="color:salmon">IN PROGRESS:</span> Use the
-        Nightscout data to make some plots of blood glucose levels.
-    </li>
-    <li>
-        <strong><span style="color:salmon">TODO:</span></strong> Create a
-        template report (PDF?) for Karen that allows us to better
-        understand her blood glucose patterns.
-    </li>
-    <li>
-        <strong><span style="color:salmon">TODO:</span></strong> Create
-        an interactive dashboard (Shiny!) for Karen that allows us to
-        better understand her blood glucose patterns.
-    </li>
-    <li>    
-        <strong><span style="color:salmon">IN PROGRESS:</span></strong> Finish
-        reading <a href="http://sugarsurfing.com/">Sugar Surfing</a>.
-    </li>
-    <li>
-        <strong><span style="color:salmon">TODO:</span></strong> Use
-        ideas from the book to improve our reporting and processing of
-        Karen's CGM data.
-    </li>
-    <li>
-        <strong><span style="color:salmon">TODO:</span></strong> Develop
-        a generic method to predict extreme highs and lows before they
-        happen.
-    </li>
-    <li>
-        <strong><span style="color:salmon">TODO:</span></strong> Publish
-        a R package to make it easier for others to repeat what I come
-        up with.
-    </li>
-</ul>
+<h3>Diabetes Reporting and Management</h3>
+
+<table cellpadding="3" align="center" width="80%" style="border: 1px solid gray; border-collapse: collapse;">
+    <tr style="bgcolor: black;">
+        <th bgcolor="lightgray" style="border: 1px solid gray;">Status</th>
+        <th bgcolor="lightgray" style="border: 1px solid gray;">Completed</th>
+        <th bgcolor="lightgray" style="border: 1px solid gray;">Goal</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><span style="color:green">DONE</font</strong></td>
+        <td style="border: 1px solid gray;">2015-07-29</td>
+        <td style="border: 1px solid gray;">
+            Publish example code showing how to query data in a
+            Nightscout databse.
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">ACTIVE</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Use Nightscout data to create a PDF report similar to the
+            Medtronic "Sensor & Meter Overview" report.
+            <ul>
+                <li>24 Hour</li>
+                <li>Bedtime to Wake-Up</li>
+                <li>Meal Periods</li>
+            </ul>
+        </td>
+    </tr>
+    </tr>    
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Create an interactive dashboard (Shiny!) for Karen that
+            allows us to better understand her blood glucose patterns.
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">ACTIVE</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Finish reading <a href="http://sugarsurfing.com/">Sugar Surfing</a>.
+        </td>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Use ideas from Sugar Surfing to improve our reporting and
+            processing of Karen's CGM data.
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Develop a generic time-series approach for identifying
+            trends in the Nightscout data.
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Publish an R package to make it easier for others to
+            access and use these ideas.
+        </td>
+    </tr>
+</table>
+
+<h3>Learning</h3>
+
+<table cellpadding="3" align="center" width="80%" style="border: 1px solid gray; border-collapse: collapse;">
+    <tr style="bgcolor: black;">
+        <th bgcolor="lightgray" style="border: 1px solid gray;">Status</th>
+        <th bgcolor="lightgray" style="border: 1px solid gray;">Completed</th>
+        <th bgcolor="lightgray" style="border: 1px solid gray;">Goal</th>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><span style="color:salmon">ACTIVE</font</strong></td>
+        <td style="border: 1px solid gray;">2015-07-29</td>
+        <td style="border: 1px solid gray;">
+            Learn how to effectively query the Nightscout database.
+            <ul>
+                <li><strong><font color="green">DONE:</font></strong> RMongo</li>
+                <li><strong><font color="green">DONE:</font></strong> rmgondb</li>
+                <li><strong><font color="salmon">TODO:</font></strong> mongolite</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Develop a function to import Nightscout Mongo data into R.
+        </td>
+    </tr>
+    </tr>    
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Develop a function to export Nightscout data as a CSV file.
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Develop / Publish an R package to help others access and use their Nightscout data.
+        </td>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Develop a generic time-series method to predict extreme
+            highs and lows before they happen.
+        </td>
+    </tr>
+    <tr>
+        <td style="border: 1px solid gray;"><strong><font color="salmon">TODO</font</strong></td>
+        <td style="border: 1px solid gray;"></td>
+        <td style="border: 1px solid gray;">
+            Use this project to demonstrate an open/transparent research process.
+        </td>
+    </tr>
+</table>
