@@ -2,7 +2,13 @@
 
 A place for me to learn more about diabetes self-management and
 prediction using CGM data obtained from our
-[Nightscout](http://www.nightscout.info/">) server.
+[Nightscout](http://www.nightscout.info/">) server. The
+code in this repo will be exploratory. There will eventually be
+other two other repos connected to this project. The first will be
+dedicated to a [Shiny dashboard](http://shiny.rstudio.com/). The
+second will be for an R package I intend to develop by the end of
+2015. When they are ready, I'll publish links to them here and demo
+their usage.
 
 ### Disclaimers:
 
