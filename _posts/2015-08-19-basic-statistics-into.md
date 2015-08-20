@@ -59,15 +59,15 @@ carefully because of the differences in measurement and accuracy. The
 differences between manual blood tests and CGM readings will be
 discussed in greater detail later this week.
 
- Data Element    Statistics Table        Data Source                           Replicated    Data Element Description
---------------   ---------------------   ------------                         ------------   -------------------------
- 1               Avg BG (mg/dL)          Manual Blood Glucose Test            No             Average blood glucose levels and standard deviation
- 2               BG Readings             Manual Blood Glucose Test            No             Number of manual tests during measurement period and the average number of manual tests per a day
- 3               Readings Above Target   Manual Blood Glucose Test            Yes            Number and proportion of CGM readings above 140 mg/dL
- 4               Readings Below Target   Manual Blood Glucose Test            Yes            Number and proportion of CGM readings below 70 mg/dL
- 5               Sensor Avg (mg/dL)      Continuous Glucose Monitor Reading   Yes            Average CGM reading during the measurement period
- 6               Avg AUC > 140 (mg/dL)   Continuous Glucose Monitor Reading   No             Average Area Under Curve (AUC) for readings over 140 mg/dL
- 7               Avg AUC < 70 (mg/dL)    Continuous Glucose Monitor Reading   No             Average Area Under Curve (AUC) for readings under 70 mg/dL
+Data Element|Statistics Table     |Data Source                       | Replicated|Data Element Description
+:----------:|:--------------------|:---------------------------------|:---------:|:------------------------------------------------------------------------------------------------
+1           |Avg BG (mg/dL)       |Manual Blood Glucose Test         |No         |Average blood glucose levels and standard deviation
+2           |BG Readings          |Manual Blood Glucose Test         |No         |Number of manual tests during measurement period and the average number of manual tests per a day
+3           |Readings Above Target|Manual Blood Glucose Test         |Yes        |Number and proportion of CGM readings above 140 mg/dL
+4           |Readings Below Target|Manual Blood Glucose Test         |Yes        |Number and proportion of CGM readings below 70 mg/dL
+5           |Sensor Avg (mg/dL)   |Continuous Glucose Monitor Reading|Yes        |Average CGM reading during the measurement period
+6           |Avg AUC > 140 (mg/dL)|Continuous Glucose Monitor Reading|No         |Average Area Under Curve (AUC) for readings over 140 mg/dL
+7           |Avg AUC < 70 (mg/dL) |Continuous Glucose Monitor Reading|No         |Average Area Under Curve (AUC) for readings under 70 mg/dL
 
 The goal of diabetes management is to use insulin, diet, activity and
 monitoring to artificially maintain blood glucose homeostasis. The
