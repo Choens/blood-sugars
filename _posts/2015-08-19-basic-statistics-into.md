@@ -37,9 +37,9 @@ showing data from February 13 - 26, 2015. The picture, as shown, only
 shows the first seven rows of the table because the others are not
 relevant to a discussion about blood glucose data.
 
-<a href="/home/andy/Git/blood-sugars/images/2015-08-19/01-statistics.jpg">
+<a href="images/2015-08-19/01-statistics.jpg">
 <img
-src="/home/andy/Git/blood-sugars/images/2015-08-19/01-statistics.jpg" width="329" height="478" caption="Figure 1. Medtronic Statistics Table from Page 2">
+src="images/2015-08-19/01-statistics.jpg" width="329" height="478" caption="Figure 1. Medtronic Statistics Table from Page 2">
 </a>
 
 Over the next week or so, I will publish at least two posts which will
