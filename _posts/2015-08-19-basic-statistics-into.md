@@ -1,4 +1,5 @@
 ---
+layout: post
 title: "Basic CGM Statistics - Introduction"
 author: "Andy Choens"
 category: "analysis"
