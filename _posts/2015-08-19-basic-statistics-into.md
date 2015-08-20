@@ -47,27 +47,27 @@ include demo R and will use Nightscout CGM data to produce tables
 which are clinically similar to the descriptive statistics in this
 table.
 
-Table 1 describes the data elements in the Statistics table that are
+Table 1 describes the measures in the Statistics table that are
 relevant for this week's discussion. The first four rows of the
 Statistics table are based on manual blood glucose tests, not CGM
 data. Only measures based on CGM data can be directly replicated using
 Nightscout data.
 
-It is possible to use Nightscout data to estimate the other data
-elements. But the resulting measures must be discussed and considered
+It is possible to use Nightscout data to estimate the other
+measures. But, the resulting measures must be discussed and considered
 carefully because of the differences in measurement and accuracy. The
 differences between manual blood tests and CGM readings will be
 discussed in greater detail later this week.
 
- Data Element   Statistics Table       Data Source                          Replicated   Data Element Description
---------------  ---------------------  ------------                        ------------  ---------------------
- 1              Avg BG (mg/dL)         Manual Blood Glucose Test           No            Average blood glucose levels and standard deviation
- 2              BG Readings            Manual Blood Glucose Test           No            Number of manual tests during measurement period and the average number of manual tests per a day
- 3              Readings Above Target  Manual Blood Glucose Test           Yes           Number and proportion of CGM readings above 140 mg/dL
- 4              Readings Below Target  Manual Blood Glucose Test           Yes           Number and proportion of CGM readings below 70 mg/dL
- 5              Sensor Avg (mg/dL)     Continuous Glucose Monitor Reading  Yes           Average CGM reading during the measurement period
- 6              Avg AUC > 140 (mg/dL)  Continuous Glucose Monitor Reading  No            Average Area Under Curve (AUC) for readings over 140 mg/dL
- 7              Avg AUC < 70 (mg/dL)   Continuous Glucose Monitor Reading  No            Average Area Under Curve (AUC) for readings under 70 mg/dL
+ Data Element    Statistics Table        Data Source                           Replicated    Data Element Description
+--------------   ---------------------   ------------                         ------------   -------------------------
+ 1               Avg BG (mg/dL)          Manual Blood Glucose Test            No             Average blood glucose levels and standard deviation
+ 2               BG Readings             Manual Blood Glucose Test            No             Number of manual tests during measurement period and the average number of manual tests per a day
+ 3               Readings Above Target   Manual Blood Glucose Test            Yes            Number and proportion of CGM readings above 140 mg/dL
+ 4               Readings Below Target   Manual Blood Glucose Test            Yes            Number and proportion of CGM readings below 70 mg/dL
+ 5               Sensor Avg (mg/dL)      Continuous Glucose Monitor Reading   Yes            Average CGM reading during the measurement period
+ 6               Avg AUC > 140 (mg/dL)   Continuous Glucose Monitor Reading   No             Average Area Under Curve (AUC) for readings over 140 mg/dL
+ 7               Avg AUC < 70 (mg/dL)    Continuous Glucose Monitor Reading   No             Average Area Under Curve (AUC) for readings under 70 mg/dL
 
 The goal of diabetes management is to use insulin, diet, activity and
 monitoring to artificially maintain blood glucose homeostasis. The
@@ -91,13 +91,13 @@ this complexity, Average AUC will be discussed at a later date
 (probably not this week).
 
 This week's posts will focus on producing a clinically similar version
-of the measures derived from mannual tests and the last three data
-elements derived from CGM sensor data (rows 3-5).
+of the measures derived from mannual tests and the last three measures
+derived from CGM sensor data (rows 3-5).
 
 # Interoperability
 
 You may have noticed that many of the measures in the Statistics table
-are blank. Data elements based on CGM data are blank because the
+are blank. All measures based on CGM data are blank because the
 Medtronic system cannot get data from Karen's Dexcom Continuous
 Glucose Monitor. Humanity was able to land on the moon with a computer
 that today would not qualify as a child's calculator. But device
