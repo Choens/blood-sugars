@@ -1,7 +1,7 @@
 ---
 title: "Basic CGM Statistics - Introduction"
 author: "Andy Choens"
-output: md_document
+category: "analysis"
 
 ---
 
