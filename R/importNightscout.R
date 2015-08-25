@@ -1,6 +1,7 @@
 #' Imports Nightscout Data
 #' Imports Nightscout data.
 #' Requires rmongodb.
+#' The dependency on rmongodb may change in the future.
 #' In the future, will accept additional input such as a date range.
 #'
 #' @param ns_host URL or IP Address of the Nightscout host.
@@ -8,7 +9,7 @@
 #' @param ns_user User Name of the Nightscout DB user.
 #' @param ns_pw Password for the Nightscout DB user.
 #'
-#' @return entries The Nightscout data.
+#' @return A data frame containing the Nightscout data.
 #'
 importNightscout <- function(ns_host, ns_db, ns_user, ns_pw) {
     require(rmongodb)
