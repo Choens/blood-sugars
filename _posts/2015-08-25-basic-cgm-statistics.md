@@ -89,6 +89,7 @@ can use the Makefile for compiling this document. Others are encouraged
 to use a tool such as [RStudio](https://www.rstudio.com/) which
 simplifies the process.
 
+{% highlight r linenos=table %}
     ## Dependencies ----------------------------------------------------------------
     ## If any of these fail, run the following (capitalization counts):
     ## install.packages("name_of_package")
@@ -100,7 +101,8 @@ simplifies the process.
 
     ## Prevents pander from wrapping the table @ 80 chars.
     panderOptions('table.split.table', Inf)
-
+{% endhighlight %}
+    
 Data Import & Munging
 =====================
 
@@ -108,6 +110,7 @@ The following code chunk imports the most recent CSV file available in
 the data folder and stores it in a data frame called "entries". This
 name was chosen for consistency with Nightscout data structures.
 
+{% highlight r linenos=table %}
     ## Import data------------------------------------------------------------------
     ## Retrieves a list of CSV files in the data dir.
     ## Imports the most recent file, assuming the file naming schema is followed.
@@ -129,7 +132,8 @@ name was chosen for consistency with Nightscout data structures.
     entries$wk_lbl[ entries$date >= '2015-07-05' & entries$date <'2015-07-12' ] <- 'Week 2: July 05 - July 11'
     entries$wk_lbl[ entries$date >= '2015-07-12' & entries$date <'2015-07-19' ] <- 'Week 3: July 12 - July 18'
     entries$wk_lbl[ entries$date >= '2015-07-19' & entries$date <'2015-07-26' ] <- 'Week 4: July 19 - July 25'
-
+{% endhighlight %}
+    
 Nightscout data is a time-series data set. The descriptive statistics
 shown below aggregates CGM readings by week. The "Week Labels" column
 (wk\_lbl) is a simple way to aggregate, order and label the data. Future
@@ -230,6 +234,7 @@ context. The following table includes four weekly sensor averages and we
 can see that Karen's weekly averages and standard deviations are fairly
 consistent week to week.
 
+{% highlight r linenos=table %}
     entries %>%
         filter( !is.na(wk_lbl) ) %>%
         group_by( "Date Range" = wk_lbl) %>%
@@ -237,7 +242,8 @@ consistent week to week.
                   "Std Deviation" = paste( round(sd(sgv, na.rm=TRUE),1),"mg/dL")
                   ) %>%
         pander()
-
+{% endhighlight %}
+        
 <table>
 <colgroup>
 <col width="36%" />
@@ -275,17 +281,18 @@ consistent week to week.
 </tbody>
 </table>
 
-The blood glucose level for a non-diabetic is, on average, 100. Over the
-course of the day, a non-diabetic could be as high as 140 and as low as
-70, although such extremes values would be short-lived. This shows us
-that even with insulin treatment, Karen's averages are higher than a
-non-diabetic. The weekly averages shown above are a little higher than
-the report from February, but well within the range we would expect to
-see based on the variance seen across weeks. The high standard deviation
-demonstrates that Karen experiences a wide range of blood glucose
-levels. Although she does not meet the definition of a "brittle
-diabetic", her blood glucose levels do swing dramatically as a result of
-her [gastroparesis](https://en.wikipedia.org/wiki/Gastroparesis), a
+The blood glucose level for a non-diabetic is, on average, 100. Over
+the course of the day, a non-diabetic could be as high as 140 and as
+low as 70, although such extremes values would be short-lived. This
+shows us that even with insulin treatment, Karen's averages are higher
+than a non-diabetic. The weekly averages shown above are a little
+higher than the report from February, but well within the range we
+would expect to see based on the variance seen across weeks. The high
+standard deviation demonstrates that Karen experiences a wide range of
+blood glucose levels. Although she does not meet the definition of a
+"brittle diabetic", her blood glucose levels do swing dramatically as
+a result of her
+[gastroparesis](https://en.wikipedia.org/wiki/Gastroparesis), a
 complication of diabetes.
 
 Number of Sensor Readings
@@ -316,12 +323,14 @@ readings falls unexpectedly, such as the week starting on July 19, it
 may indicate a problem with the CGM or how consistently Karen is using
 her CGM.
 
+{% highlight r linenos=table %}
     entries %>%
         filter( !is.na(wk_lbl) ) %>%
         group_by( "Date Range" = wk_lbl) %>%
         summarize("N Entries" = format( n(), big.mark="," ) ) %>%
         pander()
-
+{% endhighlight %}
+        
 <table>
 <colgroup>
 <col width="36%" />
@@ -376,6 +385,7 @@ shows the percentage of CGM readings that are in the target range, above
 it and below it. A high proportion of readings in the 70 - 140 mg/dL
 range is the desired outcome.
 
+{% highlight r linenos=table %}
     entries %>%
         filter( !is.na(wk_lbl) ) %>%
         group_by( "Date Range" = wk_lbl) %>%
@@ -391,7 +401,8 @@ range is the desired outcome.
                                                    "%",sep="")
                   ) %>%
         pander()
-
+{% endhighlight %}
+        
 <table>
 <colgroup>
 <col width="21%" />
@@ -458,6 +469,7 @@ as possible to fall in this range. The last column is the mean sensor
 value for readings in the target group. An average close to 100 mg/dL is
 good.
 
+{% highlight r linenos=table %}
     entries %>%
         filter( !is.na(wk_lbl) ) %>%
         group_by( "Date Range" = wk_lbl) %>%
@@ -472,6 +484,7 @@ good.
                                    )
                   ) %>%
         pander()
+{% endhighlight %}
 
 <table>
 <colgroup>
@@ -547,6 +560,7 @@ ketoacidosis, coma and death. A hyperglycemic average close to 140 is
 better than a higher average. Reducing the number of readings about 140
 is ALWAYS a good thing.
 
+{% highlight r linenos=table %}
     entries %>%
         filter( !is.na(wk_lbl) ) %>%
         group_by( "Date Range" = wk_lbl) %>%
@@ -558,7 +572,8 @@ is ALWAYS a good thing.
                   "CGM AVG" = paste( format(round(mean( ifelse(sgv > 140, sgv, NA), na.rm=TRUE),2),nsmall=2), " mg/dL")
                   ) %>%
         pander()
-
+{% endhighlight %}
+        
 <table>
 <colgroup>
 <col width="27%" />
@@ -628,6 +643,7 @@ Thankfully, the latter is rare. The last column is the mean CGM value
 for readings below the target range. A hypoglycemic average close to 70
 is better than a lower average.
 
+{% highlight r linenos=table %}
     entries %>%
         filter( !is.na(wk_lbl) ) %>%
         group_by( "Date Range" = wk_lbl) %>%
@@ -644,7 +660,8 @@ is better than a lower average.
                                   )
                   ) %>%
         pander()
-
+{% endhighlight %}
+        
 <table>
 <colgroup>
 <col width="27%" />
