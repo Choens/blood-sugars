@@ -226,7 +226,7 @@ readings, which cannot be directly replicated using CGM data. It is
 surprising that the Medtronic report only includes the number and
 daily average of manual tests. Knowing the number of sensor readings
 is useful for understanding the consistency with which the CGM is
-worn, whch is obviously important for assessing the accuracy and
+worn, which is obviously important for assessing the accuracy and
 validity of the aggregate CGM data.
 
 This measure is not really clinically similar to Measure 2. Manual
@@ -240,7 +240,7 @@ discussing.
 When the CGM is worn correctly and is operational, it records a new
 reading every five minutes. But, Murphy rules. Batteries die, sensors
 fall out and sensors lose their connection to the rig. This is an
-individualized "big" data set and it isn't even genomic! In an ideal
+individualized "big" data set and it isn't even genetic! In an ideal
 world, the sensor will record 2,016 readings every week. As you can
 see, the number of actual readings is usually below 2,000. When the
 number of readings falls unexpectedly, such as the week starting on
@@ -272,7 +272,7 @@ Duration matters. The Statistics table includes several measures to
 approximate how much time is spent in different blood glucose value
 ranges. Karen's endocrinologist wants to know how much time she spends
 in the "good" range, 70-140 mg/dL. This range of values damages her
-body less than either hyper or hypo glycemia. In the Medtronic report,
+body less than either hyper / hypo-glycemia. In the Medtronic report,
 these data elements are based on manual blood glucose tests, but we
 can create a clinically similar measure using Nightscout data. The
 following table shows the percentage of CGM readings that are in the
@@ -340,7 +340,7 @@ the target range will improve Karen's diabetes control and help
 prevent or limit complications. The raison d'être of this project is
 to help Karen take corrective actions sooner, which we believe will
 improve her blood glucose control. This is not a wild hypothesis,
-Continuos Glucose Monitors were developed because of this hypothesis
+Continuous Glucose Monitors were developed because of this hypothesis
 and it worked. Research has been shown that Type 1 diabetics using CGM
 data have better blood glucose control. Using this same data to make
 person-specific predictions is the next step in developing a more
