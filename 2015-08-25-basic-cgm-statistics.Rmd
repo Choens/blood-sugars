@@ -1,0 +1,436 @@
+---
+title: "Basic CGM Statistics"
+author: "Andy Choens"
+output: md_document
+
+---
+
+# Objectives
+
+This is the follow-up to my post from August 19th, which you can find
+[here](https://choens.github.io/blood-sugars//analysis/2015/08/19/basic-statistics-into.html),
+if you haven't already read it. In that post, I describe a table from
+a Medtronic report with a series of descriptive measures of blood
+glucose levels. Today, we will use Continuous Glucose Monitor (CGM)
+data from Karen's Nightscout rig to create a series of clinically
+similar measures. Medtronic measures using CGM data can be replicated
+exactly using Nightscout CGM data. Medtronic measures using manual
+blood glucose data cannot be replicated exactly. We will use CGM data
+to create a clinically similar measures. Because of physiological and
+sample frame differences between manual blood glucose tests and
+interstitial tissue glucose readings taken by a CGM, they will not be
+identical but they will be very similar. The Medtronic report has two
+goals:
+
+1. Provide Karen and her endocrinologist with a basic understanding of
+   Karen's blood glucose control.
+2. Help them identify ways in which she can do more to control her
+   blood glucose levels.
+
+Aggregated measures using CGM or manual blood glucose tests have the
+same clinical goal, to inform Karen's diabetes self-management. In
+aggregated form, CGM data is not necessarily inferior to manual
+tests. In fact, CGM data may be superior. I will discuss the medical
+and sampling differences between the two technologies another day. In
+the meantime, we will treat measures based on CGM data as being
+clinically similar to measures based on manual blood glucose tests.
+
+The objectives of today's post are:
+
+1. Import CGM data from a CSV file.
+2. Clean-Up / Process the data (Data Munging!) to prepare it for use.
+3. Use R to produce descriptive tables which are clinically similar to
+   three of the data elements provided in the Medtronic Statistics
+   table.
+
+   - The Medtronic Statistics table provides descriptive statistics
+     for a single time period. The demo code provided here returns
+     descriptive statistics from four weeks earlier this summer. This
+     allows us to understand if values from any given week are an
+     aberration or are normal for Karen.
+   - Use Nightscout CGM data to build the measures. It's what we have,
+     we will use it.
+     
+4. Learn more about Karen's average blood glucose levels and use this
+   to discuss the diabetes management goals of this project.
+
+All code will be shown and documented.
+
+# Code, Data, Dependencies
+
+*Code:* The .Rmd file used to create this post is available on
+[GitHub](https://github.com/Choens/blood-sugars/blob/master/2015-08-25-basic-cgm-statistics.Rmd).
+
+*Data Location:* The data used here can be found in the
+[data sub-folder](https://github.com/Choens/blood-sugars/tree/master/data)
+on the project page.
+
+*Data Warning:* Our current rig has been in nearly continuous use
+since June 21, 2015.  Data collected prior to June 2015 is
+inconsistent due to limitations with the previous rig and mistakes we
+made figuring out how to use it. I do not recommend using data
+collected prior to June 2015 for analysis.
+
+*Reproducibility Warning:* File names and content are subject to
+periodic updates. Open a bug or download the repository from GitHub
+for long-term use.
+
+The only dependencies needed to run the code in this document are
+dplyr and ggplot2 from the
+[Hadleyverse](https://en.wikipedia.org/wiki/Hadley_Wickham) and pander
+which produces the formatted table output. To compile the HTML from
+the .Rmd file you will need the rmarkdown package. Readers familiar
+with
+[GNU Makefiles](https://www.gnu.org/prep/standards/html_node/Makefile-Basics.html#Makefile-Basics)
+can use the Makefile for compiling this document. Others are
+encouraged to use a tool such as [RStudio](https://www.rstudio.com/)
+which simplifies the process.
+
+```{r init, echo=TRUE, message=FALSE}
+
+## Dependencies ----------------------------------------------------------------
+## If any of these fail, run the following (capitalization counts):
+## install.packages("name_of_package")
+library(dplyr)
+library(ggplot2)
+library(pander)
+
+## Config ----------------------------------------------------------------------
+
+## Prevents pander from wrapping the table @ 80 chars.
+panderOptions('table.split.table', Inf)
+
+```
+
+# Data Import & Munging
+
+The following code chunk imports the most recent CSV file available in
+the data folder and stores it in a data frame called "entries". This
+name was chosen for consistency with Nightscout data structures.
+
+```{r import-data, echo=TRUE}
+
+## Import data------------------------------------------------------------------
+## Retrieves a list of CSV files in the data dir.
+## Imports the most recent file, assuming the file naming schema is followed.
+files <- dir("data", "*csv", full.names=TRUE)
+entries <- read.csv(files[length(files)], as.is=TRUE)
+
+## Data Munging ----------------------------------------------------------------
+
+## Removes unnecessary SGV rows.
+entries <- entries %>%
+    filter(type == "sgv")
+
+## Tells R the "date" column is full of dates.
+entries$date <- as.POSIXct(entries$date)
+
+## Week Labels - Useful labels we will be to aggregate by later.
+entries$wk_lbl <- NA
+entries$wk_lbl[ entries$date >= '2015-06-28' & entries$date <'2015-07-05' ] <- 'Week 1: June 28 - July 04'
+entries$wk_lbl[ entries$date >= '2015-07-05' & entries$date <'2015-07-12' ] <- 'Week 2: July 05 - July 11'
+entries$wk_lbl[ entries$date >= '2015-07-12' & entries$date <'2015-07-19' ] <- 'Week 3: July 12 - July 18'
+entries$wk_lbl[ entries$date >= '2015-07-19' & entries$date <'2015-07-26' ] <- 'Week 4: July 19 - July 25'
+
+```
+
+Nightscout data is a time-series data set. The descriptive statistics
+shown below aggregates CGM readings by week. The "Week Labels" column
+(wk\_lbl) is a simple way to aggregate, order and label the
+data. Future posts will demonstrate how to graph individual CGM
+readings to look for patterns. Eventually, I will demonstrate more
+formal time series analysis methods.
+
+# Descriptive Statistics
+
+These are the measures of interest found in the Medtronic Statistics
+table. The Replicated column identifies which measures are replicated
+more or less exactly and which are clinically similar, due to the
+differences in source data as previously discussed.
+
+Data Element|Statistics Table     |Original Data Source              | Replicated        |Data Element Description
+:----------:|:--------------------|:---------------------------------|:-----------------:|:------------------------------------------------------------------------------------------------
+1           |Avg BG (mg/dL)       |Manual Blood Glucose Test         |Clinically Similar |Average blood glucose levels and standard deviation
+2           |BG Readings          |Manual Blood Glucose Test         |Clinically Similar |Number of manual tests during measurement period and the average number of manual tests per a day
+3           |Readings Above Target|Manual Blood Glucose Test         |Clinically Similar |Number and proportion of CGM readings above 140 mg/dL
+4           |Readings Below Target|Manual Blood Glucose Test         |Clinically Similar |Number and proportion of CGM readings below 70 mg/dL
+5           |Sensor Avg (mg/dL)   |Continuous Glucose Monitor Reading|Yes                |Average CGM reading during the measurement period
+
+In this table, Medtronic uses manual blood glucose tests far more
+frequently than it uses CGM data. I don't know why, but the graphics
+in the report, which we will discuss soon, are all based on CGM
+data. This is the only place in the report which is so heavily biased
+toward blood glucose readings. Perhaps this serves as a point of
+comparison between the two methodologies, to allow users to compare
+results.
+
+# Sensor Avg (mg/dL)
+
+The table shown below is calculated in the same way "Sensor Avg" is
+one row five. This measure is clinically similar to Avg BG measure on
+row 1. In either case, it is a simple measure of blood glucose
+control. Because it is an average, hypoglycemic episodes can
+mathematically cancel out periods of hyperglycemia. Unfortunately,
+they do not cancel out damage caused by hyperglycemia.
+
+To use this measure to understand diabetes management, you must use
+both the average and the standard deviation, to account for the
+variance in blood glucose levels. Diabetics who swing to extreme blood
+glucose levels quickly, such as Karen, have high standard deviations,
+even if the average is relatively close to 100.
+
+As discussed
+[previously](https://choens.github.io/blood-sugars//analysis/2015/08/19/basic-statistics-into.html),
+the Medtronic is unable to use the CGM data from Karen's Dexcom
+CGM. Had the data been available, the Medtronic report would have
+shown a two week average sensor reading. While useful, a single two
+week average lacks context. I want to understand the stability of this
+average over time. Is an average of 187 mg/dL normal or abnormal for
+Karen?  Fortunately, our Nightscout data set is now large enough to
+return multiple weekly averages, which can put single week averages
+into context. The following table includes four weekly sensor averages
+and we can see that Karen's weekly averages and standard deviations
+are fairly consistent week to week.
+
+```{r avg-bg, echo=TRUE}
+
+entries %>%
+    filter( !is.na(wk_lbl) ) %>%
+    group_by( "Date Range" = wk_lbl) %>%
+    summarise("Avg Sensor Reading" = paste(round(mean(sgv, na.rm=TRUE),1),"mg/dL"),
+              "Std Deviation" = paste( round(sd(sgv, na.rm=TRUE),1),"mg/dL")
+              ) %>%
+    pander()
+
+``` 
+
+The blood glucose level for a non-diabetic is, on average, 100. Over
+the course of the day, a non-diabetic could be as high as 140 and as
+low as 70, although such extremes values would be short-lived. This
+shows us that even with insulin treatment, Karen's averages are higher
+than a non-diabetic. The weekly averages shown above are a little
+higher than the report from February, but well within the range we
+would expect to see based on the variance seen across weeks. The high
+standard deviation demonstrates that Karen experiences a wide range of
+blood glucose levels. Although she does not meet the definition of a
+"brittle diabetic", her blood glucose levels do swing dramatically as
+a result of her
+[gastroparesis](https://en.wikipedia.org/wiki/Gastroparesis), a
+complication of diabetes.
+
+# Number of Sensor Readings
+
+The Statistics table does not include the number of sensor
+readings. It only includes the number of manual blood glucose
+readings, which cannot be directly replicated using CGM data. It is
+surprising that the Medtronic report only includes the number and
+daily average of manual tests. Knowing the number of sensor readings
+is useful for understanding the consistency with which the CGM is
+worn, whch is obviously important for assessing the accuracy and
+validity of the aggregate CGM data.
+
+This measure is not really clinically similar to Measure 2. Manual
+blood glucose tests are important. They are used to calibrate the CGM
+sensor, which helps improve the accuracy of the CGM data we are going
+to rely on so much here. Reporting on the number of sensor readings is
+as similar as we can get, but it is not clinically similar. But, as a
+measure, the count and distribution of CGM sensor readings is worth
+discussing.
+
+When the CGM is worn correctly and is operational, it records a new
+reading every five minutes. But, Murphy rules. Batteries die, sensors
+fall out and sensors lose their connection to the rig. This is an
+individualized "big" data set and it isn't even genomic! In an ideal
+world, the sensor will record 2,016 readings every week. As you can
+see, the number of actual readings is usually below 2,000. When the
+number of readings falls unexpectedly, such as the week starting on
+July 19, it may indicate a problem with the CGM or how consistently
+Karen is using her CGM.
+
+```{r n-sensor-readings, echo=TRUE}
+
+entries %>%
+    filter( !is.na(wk_lbl) ) %>%
+    group_by( "Date Range" = wk_lbl) %>%
+    summarize("N Entries" = format( n(), big.mark="," ) ) %>%
+    pander()
+
+```
+
+In this case, the low number of CGM readings is misleading. It is not
+indicative of a CGM error. Not is it telling us that Karen decided to
+stop managing her diabetes for a week. We were in Ireland that week on
+vacation. Contrary to what you see, Karen did use her CGM in Europe.
+There are gaps in the Nightscout data because we stopped using the rig
+for several days that week. We would like to thank Verizon for making
+it outrageously complicated and expensive to set up and monitor a data
+connection in Europe. THANK YOU!
+
+# Time Spent Where
+
+Duration matters. The Statistics table includes several measures to
+approximate how much time is spent in different blood glucose value
+ranges. Karen's endocrinologist wants to know how much time she spends
+in the "good" range, 70-140 mg/dL. This range of values damages her
+body less than either hyper or hypo glycemia. In the Medtronic report,
+these data elements are based on manual blood glucose tests, but we
+can create a clinically similar measure using Nightscout data. The
+following table shows the percentage of CGM readings that are in the
+target range, above it and below it. A high proportion of readings in
+the 70 - 140 mg/dL range is the desired outcome.
+
+```{r ranges-bg, echo=TRUE}
+
+entries %>%
+    filter( !is.na(wk_lbl) ) %>%
+    group_by( "Date Range" = wk_lbl) %>%
+    summarise("Sensor Readings" = n(),
+              "Readings In Target Range " = paste( format(round(sum(ifelse(sgv >= 70 & sgv<= 140,1,0))/n()*100,2),
+                                                          nsmall = 2),
+                                                   "%", sep=""),
+              "Readings Above Target" = paste( format(round(sum(ifelse(sgv > 140,1,0))/n()*100,2),
+                                              nsmall = 2),
+                                              "%",sep=""),
+              "Readings Below Target" = paste( format(round(sum(ifelse(sgv < 70,1,0))/n()*100,2),
+                                               nsmall=2),
+                                               "%",sep="")
+              ) %>%
+    pander()
+
+```
+
+Although mathematically crude, simple proportions such as these are
+similar to the AUC and it is easier for many patients and doctors to
+understand. By including the average sensor reading for readings in a
+given range we can better understand the interplay between duration
+and severity. More on that below. Yes, this is a long
+post. Sorry. Thanks for hanging in there.
+
+## Readings In Target Range
+
+The first column, the measure denominator, is the total number of CGM
+readings. The numerator, the number of readings in the target range
+(70-140 mg/dL) is the second column. A diabetic wants as many readings
+as possible to fall in this range. The last column is the mean sensor
+value for readings in the target group. An average close to 100 mg/dL
+is good.
+
+```{r on-target, echo=TRUE}
+
+entries %>%
+    filter( !is.na(wk_lbl) ) %>%
+    group_by( "Date Range" = wk_lbl) %>%
+    summarise("CGM Readings" = n(),
+              "Readings In Target Range" = sum(ifelse(sgv >= 70 & sgv<= 140,1,0)),
+              "% In Target Range" = format(round(sum(ifelse(sgv >= 70 & sgv<= 140,1,0))/n()*100,2),
+                                                  nsmall = 2
+                                                  ),
+              "CGM AVG" = paste( round(mean( ifelse(sgv >= 70 & sgv <= 140, sgv, NA), na.rm=TRUE),2),
+                                "mg/dL",
+                                sep=" "
+                               )
+              ) %>%
+    pander()
+
+```
+
+On average, only a quarter of Karen's CGM readings fall within the
+target range. Anything we can do to increase the number of readings in
+the target range will improve Karen's diabetes control and help
+prevent or limit complications. The raison d'être of this project is
+to help Karen take corrective actions sooner, which we believe will
+improve her blood glucose control. This is not a wild hypothesis,
+Continuos Glucose Monitors were developed because of this hypothesis
+and it worked. Research has been shown that Type 1 diabetics using CGM
+data have better blood glucose control. Using this same data to make
+person-specific predictions is the next step in developing a more
+comprehensive and timely management system.
+
+## Readings Above Target Range
+
+The first column, the measure denominator, is the total number of CGM
+readings. The second column, the numerator, is the number of readings
+above 140 mg/dL. A diabetic wants to minimize the number of readings
+above the target range. The last column is the mean sensor value for
+readings above the target range. Time spent above 140 mg/dL is
+damaging to the body. At extreme values, hyperglycemia can result in
+diabetic ketoacidosis, coma and death. A hyperglycemic average close
+to 140 is better than a higher average. Reducing the number of
+readings about 140 is ALWAYS a good thing.
+
+```{r above-target, echo=TRUE}
+
+entries %>%
+    filter( !is.na(wk_lbl) ) %>%
+    group_by( "Date Range" = wk_lbl) %>%
+    summarise("CGM Readings" = n(),
+              "Readings Above Target" = sum(ifelse(sgv > 140,1,0)),
+              "% Above Target" = paste(format(round(sum(ifelse(sgv > 140,1,0))/n()*100,2),
+                                              nsmall = 2),
+                                       "%"),
+              "CGM AVG" = paste( format(round(mean( ifelse(sgv > 140, sgv, NA), na.rm=TRUE),2),nsmall=2), " mg/dL")
+              ) %>%
+    pander()
+
+```
+
+Karen is hyperglycemic more than desired. And when she is
+hyperglycemic, these episodes are moderately severe and tend to last
+several hours. If we can predict the onset of hyperglycemic episodes
+before they begin, we may be able to increase the amount of time she
+spends in the desired range by taking corrective action before she is
+hyperglycemic. Fingers are firmly crossed.
+
+## Readings Below Target Range
+
+The first column, the measure denominator, is the total number of CGM
+readings. The second column, the numerator, is the number of readings
+below 70 mg/dL. A diabetic wants to minimize the number of readings
+below the target range. When below 70 mg/dL diabetics experience
+confusion, anxiety and other physiological and psychological
+symptoms. Severe lows can result in losing consciousness or diabetic
+comas. Thankfully, the latter is rare. The last column is the mean CGM
+value for readings below the target range. A hypoglycemic average
+close to 70 is better than a lower average.
+
+```{r below-target, echo=TRUE}
+
+entries %>%
+    filter( !is.na(wk_lbl) ) %>%
+    group_by( "Date Range" = wk_lbl) %>%
+    summarise("CGM Readings" = n(),
+              "Readings Below Target" = sum(ifelse(sgv < 70,1,0)),
+              "% Below Target" = format(round(sum(ifelse(sgv < 70,1,0))/n()*100,2),
+                                                  nsmall = 2
+                                                  ),
+              "BG AVG" = paste( format( round( mean( ifelse(sgv < 70, sgv, NA), na.rm=TRUE), 2),
+                                        nsmall=2
+                                      ),
+                                "mg/dL",
+                                sep=" "
+                              )
+              ) %>%
+    pander()
+
+```
+
+Although the amount of time spent below 70 is small, Karen's
+hypoglycemic episodes can be _severe_. Karen's hyperglycemic episodes
+are often followed by a hard crash. These crashes can ruin her entire
+afternoon. At their worst, they can be dangerous. Limiting the
+severity of these attacks would improve her quality of life and
+safety. If we can reduce the number of hyperglycemic episodes, we will
+also reduce the number of these hard crashes. Diabetes is a vicious
+circle. But, improvements in one area can also result in improvements
+elsewhere.
+
+Karen copes with these hypoglycemic episodes remarkably well. A blood
+glucose level of 40 mg/dL for a non-diabetic would be profoundly
+disabling. In the 10+ years I have known her, Karen has never lost
+consciousness due to a hypoglycemic episode. She is apparently made of
+adamantium.
+
+# Thanks
+
+If you are reading this. Thanks! That was a long post, but I wanted to
+get it done. Now we can start doing fun things!
