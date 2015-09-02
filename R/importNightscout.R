@@ -2,7 +2,7 @@
 #' Imports Nightscout data.
 #' Requires rmongodb.
 #' The dependency on rmongodb may change in the future.
-#' In the future, will accept additional input such as a date range.
+#' In the future, this function will accept additional input, i.e. date range.
 #'
 #' @param ns_host URL or IP Address of the Nightscout host.
 #' @param ns_db Name of the Nightscout Database.
