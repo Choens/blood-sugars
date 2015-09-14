@@ -30,5 +30,3 @@ write.csv(entries, file_name, row.names = FALSE)
 ## If you don't want to immediately wipe out your session status,
 ## comment out this last line.
 rm( list=ls() )
-
-
