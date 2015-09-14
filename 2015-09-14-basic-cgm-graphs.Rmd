@@ -1,0 +1,145 @@
+---
+title: "Basic CGM Graphs"
+author: "Andy Choens"
+output: md_document
+
+---
+
+# Objectives
+
+This is a quick post to discuss graphing Continuous Glucose Monitor
+(CGM) data from a Nightscout server. The objectives of today's post
+are:
+
+1. Update the CGM data in the
+   [data](https://github.com/Choens/blood-sugars/tree/master/data)
+   folder. As of tonight, the largest CGM data set provided here was
+   produced on September 13, 2015.
+2. Import CGM data from a CSV file.
+2. Clean-Up / Process the data (Data Munging!) to prepare it for use.
+3. Use R and ggplot to produce a series of graphs of Karen's blood
+   glucose levels.
+4. Compare patterns seen in the graphs to what we learned previously
+   when we looked at some descriptive statistics of Karen's blood
+   glucose data.
+
+All code will be shown and documented.
+
+# Code, Data, Dependencies
+
+*Code:* The .Rmd file used to create this post is available on
+[GitHub](https://github.com/Choens/blood-sugars/blob/master/2015-09-14-basic-cgm-graphs.Rmd).
+
+*Data Location:* The data used here can be found in the
+[data sub-folder](https://github.com/Choens/blood-sugars/tree/master/data)
+on the project page.
+
+*Data Warning:* Our current rig has been in nearly continuous use
+since June 21, 2015.  Data collected prior to June 2015 is
+inconsistent due to limitations with the previous rig and mistakes we
+made figuring out how to use it. I do not recommend using data
+collected prior to June 2015 for analysis.
+
+*Reproducibility Warning:* File names and content are subject to
+periodic updates. Open a bug or download the repository from GitHub
+for long-term use.
+
+The only dependencies needed to run the code in this document are
+dplyr and ggplot2 from the
+[Hadleyverse](https://en.wikipedia.org/wiki/Hadley_Wickham) and pander
+which produces the formatted table output. To compile the HTML from
+the .Rmd file you will need the rmarkdown package. Readers familiar
+with
+[GNU Makefiles](https://www.gnu.org/prep/standards/html_node/Makefile-Basics.html#Makefile-Basics)
+can use the Makefile for compiling this document. Others are
+encouraged to use a tool such as [RStudio](https://www.rstudio.com/)
+which simplifies the process.
+
+```{r init, echo=TRUE, message=FALSE}
+
+## Dependencies ----------------------------------------------------------------
+## If any of these fail, run the following (capitalization counts):
+## install.packages("name_of_package")
+library(dplyr)
+library(ggplot2)
+library(pander)
+
+## Config ----------------------------------------------------------------------
+
+## Prevents pander from wrapping the table @ 80 chars.
+panderOptions('table.split.table', Inf)
+
+```
+
+# Data Import & Munging
+
+The following code chunk imports the most recent CSV file available in
+the data folder and stores it in a data frame called "entries". This
+name was chosen for consistency with Nightscout data structures.
+
+```{r import-data, echo=TRUE}
+
+## Import data------------------------------------------------------------------
+## Retrieves a list of CSV files in the data dir.
+## Imports the most recent file, assuming the file naming schema is followed.
+files <- dir("data", "*csv", full.names=TRUE)
+entries <- read.csv(files[length(files)], as.is=TRUE)
+
+## Data Munging ----------------------------------------------------------------
+
+## Removes unnecessary SGV rows.
+entries <- entries %>%
+    filter(type == "sgv")
+
+## Tells R the "date" column is full of dates.
+entries$date <- as.POSIXct(entries$date)
+
+## Week Labels - Useful labels we will be to aggregate by later.
+entries$wk_lbl <- NA
+entries$wk_lbl[ entries$date >= '2015-06-28' & entries$date <'2015-07-05' ] <- 'Week 1: June 28 - July 04'
+entries$wk_lbl[ entries$date >= '2015-07-05' & entries$date <'2015-07-12' ] <- 'Week 2: July 05 - July 11'
+entries$wk_lbl[ entries$date >= '2015-07-12' & entries$date <'2015-07-19' ] <- 'Week 3: July 12 - July 18'
+entries$wk_lbl[ entries$date >= '2015-07-19' & entries$date <'2015-07-26' ] <- 'Week 4: July 19 - July 25'
+
+```
+
+Nightscout data is a time-series data set. The descriptive statistics
+shown below aggregates CGM readings by week. The "Week Labels" column
+(wk\_lbl) is a simple way to aggregate, order and label the
+data. Future posts will demonstrate how to graph individual CGM
+readings to look for patterns. Eventually, I will demonstrate more
+formal time series analysis methods.
+
+Once the data was imported successfully, it was graphed. This graph
+shows the diabetic's highs and lows over several days in June. Deltas
+in blood glucose levels shown below are more dramatic that those shown
+by the Nightscout project. The Nightscout project normalizes the data
+by first taking the log of the Y-Axis values. The graph below shows
+the raw values.
+
+```{r simple-graph, echo=TRUE}
+
+entries %>%
+    filter(date >= '2015-06-17' & date <= '2015-07-17') %>%
+    select(date, sgv) %>%
+    ggplot(data=., aes(x = date, y=sgv)) +
+    geom_point() +
+    geom_smooth() +
+    geom_line() +
+    labs(x="Date / Time", y="Sensor Glucose Values(SGV)",
+         title="Sensor Glucose Values Over Time")
+       
+```
+
+```{r simple-graph-2, echo=TRUE}
+
+entries %>%
+    filter(date >= '2015-06-20' & date <= '2015-07-20') %>%
+    select(date, sgv) %>%
+    ggplot(data=., aes(x = date, y=sgv)) +
+        geom_point() +
+        geom_line() +
+        labs(x="Date / Time", y="Sensor Glucose Values(SGV)",
+             title="Sensor Glucose Values Over Time")
+       
+```
