@@ -1,3 +1,6 @@
+save-data: get-nightscout-data-from-server.R
+	Rscript -e 'source("get-nightscout-data-from-server.R")'
+
 post2015-07-29: 2015-07-29-get-cgm-data.Rmd
 	Rscript -e 'rmarkdown::render("2015-07-29-get-cgm-data.Rmd", output_format="md_document")'
 
