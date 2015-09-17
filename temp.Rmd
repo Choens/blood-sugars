@@ -1,9 +1,26 @@
-When worn regularly and correctly, CGM sensor data is not subject to
-the measurement biases inherent in manual blood glucose tests which
-could make CGM data a better source of this clinical
-information. Karen is more likely to test when she believes she is
-high or low, which can bias averages based on manual tests, even
-though individually a manual test is more accurate than a CGM
-reading. The next three sections look at Karen's CGM readings in these
-three range groups more closely and include the average sensor values
-in each range.
+
+
+```{r simple-graph, echo=TRUE}
+
+entries %>% filter(date >= '2015-06-17' & date <= '2015-07-17') %>%
+    select(date, sgv) %>% ggplot(data=., aes(x = date, y=sgv)) +
+    geom_point() + geom_smooth() + geom_line() + labs(x="Date / Time",
+    y="Sensor Glucose Values(SGV)", title="Sensor Glucose Values Over
+    Time")
+       
+```
+
+
+
+```{r simple-graph-2, echo=TRUE}
+
+entries %>%
+    filter(date >= '2015-06-20' & date <= '2015-07-20') %>%
+    select(date, sgv) %>%
+    ggplot(data=., aes(x = date, y=sgv)) +
+        geom_point() +
+        geom_line() +
+        labs(x="Date / Time", y="Sensor Glucose Values(SGV)",
+             title="Sensor Glucose Values Over Time")
+       
+```
