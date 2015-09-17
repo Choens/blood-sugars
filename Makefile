@@ -11,4 +11,4 @@ post2015-08-03: 2015-08-03-daily-overlay.Rmd
 	Rscript -e 'rmarkdown::render("2015-08-03-daily-overlay.Rmd", output_format="md_document")'
 
 post2015-09-16: 2015-09-16-basic-cgm-graphs.Rmd
-	Rscript -e 'rmarkdown::render("2015-09-16-basic-cgm-graphs.Rmd", output_format="html_document")'
+	Rscript -e 'rmarkdown::render("2015-09-16-basic-cgm-graphs.Rmd", output_format="md_document")'
