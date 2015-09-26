@@ -157,7 +157,7 @@ weekdays and her weekends.
         Time")
 {% endhighlight %}
         
-![CGM - One Weekend Day Graph]({{site.url}}/2015-09-16-basic-cgm-graphs/one-day-weekend-1.png)
+![CGM - One Weekend Day Graph]({{site.url}}/images/2015-09-16-basic-cgm-graphs/one-day-weekend-1.png)
 
 Look at her afternoon (the right side of the graph). Yes, she continues
 to vary. That's diabetes. And yes, she had a bad hyperglycemic episode
