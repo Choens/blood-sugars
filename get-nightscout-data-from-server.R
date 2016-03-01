@@ -12,7 +12,7 @@
 rm(list=ls())
 
 ## Source the function, which imports it into the session.
-source( file = "R/importNightscout.R" )
+source( file = "R/importNightscout2.R" )
 
 ## Source the passwords file. See passwords.example.R for details
 ## regarding how to set up this file.
